@@ -8,6 +8,7 @@ import com.example.gyphyclient.GiphyApplication
 import com.example.gyphyclient.R
 import com.example.gyphyclient.data.database.toDataEntityList
 import com.example.gyphyclient.data.database.toDataList
+import com.example.gyphyclient.data.database.toSearchDataEntityList
 import com.example.gyphyclient.data.network.GiphyApi
 import com.example.gyphyclient.di.DaggerAppComponent
 import com.example.gyphyclient.internal.LIMIT
@@ -53,7 +54,7 @@ class TrendingRepository {
 
         return giphyApiService.getSeach(KEY, LIMIT, RATING, searchTerm)
             .subscribeOn(Schedulers.io())
-            .subscribeWith(subscribeToDatabase())
+            .subscribeWith(subscribeToSearchDatabase(searchTerm))
     }
 
     private fun subscribeToDatabase(): DisposableSubscriber<TrendingResult> {
@@ -76,6 +77,32 @@ class TrendingRepository {
 
             override fun onComplete() {
                 getTrendingQuery()
+            }
+        }
+
+
+    }
+
+    private fun subscribeToSearchDatabase(searchTerm: String): DisposableSubscriber<TrendingResult> {
+        return object : DisposableSubscriber<TrendingResult>() {
+            override fun onNext(trendingResult: TrendingResult?) {
+                if (trendingResult != null) {
+                    val entityList = trendingResult.data.toList().toSearchDataEntityList(searchTerm)
+                    GiphyApplication.database.apply {
+                        dataDao().insertSearchData(entityList)
+                    }
+                }
+            }
+
+            override fun onError(t: Throwable?) {
+                _isInProgress.postValue(true)
+                Log.e("insertSearchData()", "TrendingResult error: ${t?.message}")
+                _isError.postValue(true)
+                _isInProgress.postValue(false)
+            }
+
+            override fun onComplete() {
+                getSearchingQuery(searchTerm)
             }
         }
 
