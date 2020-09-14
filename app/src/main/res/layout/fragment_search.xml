@@ -9,9 +9,9 @@
     <!-- TODO: Update blank fragment layout -->
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view"
+        android:id="@+id/recycler_view_search"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_margin="8dp"
         android:clipToPadding="false"
         android:paddingBottom="8dp"
@@ -21,7 +21,7 @@
         app:layout_constraintTop_toBottomOf="@+id/search_button" />
 
     <ProgressBar
-        android:id="@+id/fetch_progress"
+        android:id="@+id/fetch_progress_search"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="visible"
@@ -34,7 +34,6 @@
         android:id="@+id/search_button"
         android:layout_width="100dp"
         android:layout_height="40dp"
-        app:layout_constraintBottom_toTopOf="@+id/recycler_view"
         app:layout_constraintEnd_toStartOf="@+id/edit_text"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -42,13 +41,26 @@
 
     <EditText
         android:id="@+id/edit_text"
-        android:layout_width="300dp"
+        android:layout_width="0dp"
         android:layout_height="40dp"
-        app:layout_constraintBottom_toTopOf="@+id/recycler_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/search_button"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.489" />
+
+    <TextView
+        android:id="@+id/empty_text_search"
+        style="@style/Base.TextAppearance.AppCompat.Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:text="@string/zero_giphies"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fetch_progress_search"
+        tools:visibility="visible" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

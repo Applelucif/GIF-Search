@@ -20,7 +20,9 @@ import com.example.gyphyclient.di.DaggerAppComponent
 import com.example.gyphyclient.model.Data
 import com.example.gyphyclient.view.adapter.TrendingAdapter
 import com.example.gyphyclient.viewmodel.TrendingViewModel
+import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.android.synthetic.main.fragment_top.*
+import kotlinx.android.synthetic.main.fragment_top.recycler_view
 import javax.inject.Inject
 
 class TrendingFragment : Fragment() {

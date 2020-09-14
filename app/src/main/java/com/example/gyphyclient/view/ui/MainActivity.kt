@@ -6,7 +6,6 @@ import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatActivity
 import com.example.gyphyclient.GiphyApplication
 import com.example.gyphyclient.R
-import com.example.gyphyclient.SearchFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 

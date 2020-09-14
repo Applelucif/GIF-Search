@@ -15,6 +15,7 @@ class TrendingViewHolder(
 ) : RecyclerView.ViewHolder(itemGiphyBinding.root) {
     private val shareBtn: ImageView = itemGiphyBinding.root.findViewById(R.id.share_button)
     private val saveBtn: ImageView = itemGiphyBinding.root.findViewById(R.id.save_button)
+
     fun bind(gif: Data, shareGif: (Data) -> Unit, saveGif:(Data) -> Unit) {
         itemGiphyBinding.data = gif
         shareBtn.setOnClickListener {
@@ -60,4 +61,6 @@ class TrendingAdapter(val data: ArrayList<Data>) : RecyclerView.Adapter <Trendin
     override fun getItemCount(): Int {
         return data.size
     }
+
+    
 }

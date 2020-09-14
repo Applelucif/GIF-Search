@@ -1,5 +1,5 @@
 package com.example.gyphyclient.model
 
-data class TrendingResult(
+data class Result(
     val data: List<Data>
 )

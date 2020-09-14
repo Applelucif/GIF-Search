@@ -5,7 +5,6 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.gyphyclient.GiphyApplication
-import com.example.gyphyclient.R
 import com.example.gyphyclient.data.database.toDataEntityList
 import com.example.gyphyclient.data.database.toDataList
 import com.example.gyphyclient.data.database.toSearchDataEntityList
@@ -14,12 +13,11 @@ import com.example.gyphyclient.di.DaggerAppComponent
 import com.example.gyphyclient.internal.LIMIT
 import com.example.gyphyclient.internal.RATING
 import com.example.gyphyclient.model.Data
-import com.example.gyphyclient.model.TrendingResult
+import com.example.gyphyclient.model.Result
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subscribers.DisposableSubscriber
-import kotlinx.android.synthetic.main.fragment_search.view.*
 import javax.inject.Inject
 
 class TrendingRepository {
@@ -57,11 +55,11 @@ class TrendingRepository {
             .subscribeWith(subscribeToSearchDatabase(searchTerm))
     }
 
-    private fun subscribeToDatabase(): DisposableSubscriber<TrendingResult> {
-        return object : DisposableSubscriber<TrendingResult>() {
-            override fun onNext(trendingResult: TrendingResult?) {
-                if (trendingResult != null) {
-                    val entityList = trendingResult.data.toList().toDataEntityList()
+    private fun subscribeToDatabase(): DisposableSubscriber<Result> {
+        return object : DisposableSubscriber<Result>() {
+            override fun onNext(result: Result?) {
+                if (result != null) {
+                    val entityList = result.data.toList().toDataEntityList()
                     GiphyApplication.database.apply {
                         dataDao().insertData(entityList)
                     }
@@ -83,11 +81,11 @@ class TrendingRepository {
 
     }
 
-    private fun subscribeToSearchDatabase(searchTerm: String): DisposableSubscriber<TrendingResult> {
-        return object : DisposableSubscriber<TrendingResult>() {
-            override fun onNext(trendingResult: TrendingResult?) {
-                if (trendingResult != null) {
-                    val entityList = trendingResult.data.toList().toSearchDataEntityList(searchTerm)
+    private fun subscribeToSearchDatabase(searchTerm: String): DisposableSubscriber<Result> {
+        return object : DisposableSubscriber<Result>() {
+            override fun onNext(result: Result?) {
+                if (result != null) {
+                    val entityList = result.data.toList().toSearchDataEntityList(searchTerm)
                     GiphyApplication.database.apply {
                         dataDao().insertSearchData(entityList)
                     }

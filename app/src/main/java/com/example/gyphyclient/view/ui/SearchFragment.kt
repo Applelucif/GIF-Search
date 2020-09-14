@@ -15,12 +15,11 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DefaultItemAnimator
 import com.example.gyphyclient.R
+import com.example.gyphyclient.di.DaggerAppComponent
 import com.example.gyphyclient.model.Data
 import com.example.gyphyclient.view.adapter.TrendingAdapter
 import com.example.gyphyclient.viewmodel.SearchViewModel
 import kotlinx.android.synthetic.main.fragment_search.*
-import kotlinx.android.synthetic.main.fragment_search.fetch_progress
-import kotlinx.android.synthetic.main.fragment_search.recycler_view
 import kotlinx.android.synthetic.main.fragment_top.*
 import javax.inject.Inject
 
@@ -35,6 +34,7 @@ class SearchFragment() : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         search_button.setOnClickListener {
+            viewModel.search(edit_text.text.toString())
             setUpRecyclerView()
 
             observeInProgress()
@@ -43,6 +43,11 @@ class SearchFragment() : Fragment() {
 
         }
 
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        DaggerAppComponent.create().inject(this)
     }
 
     override fun onCreateView(
@@ -54,7 +59,7 @@ class SearchFragment() : Fragment() {
     }
 
     private fun setUpRecyclerView() {
-        recycler_view.apply {
+        recycler_view_search.apply {
             setHasFixedSize(true)
             itemAnimator = DefaultItemAnimator()
             adapter = trendingAdapter
@@ -65,11 +70,11 @@ class SearchFragment() : Fragment() {
         viewModel.repository.isInProgress.observe(this, Observer { isLoading ->
             isLoading.let {
                 if (it) {
-                    empty_text.visibility = View.GONE
-                    recycler_view.visibility = View.GONE
-                    fetch_progress.visibility = View.VISIBLE
+                    empty_text_search.visibility = View.GONE
+                    recycler_view_search.visibility = View.GONE
+                    fetch_progress_search.visibility = View.VISIBLE
                 } else {
-                    fetch_progress.visibility = View.GONE
+                    fetch_progress_search.visibility = View.GONE
                 }
             }
         })
@@ -81,19 +86,19 @@ class SearchFragment() : Fragment() {
                 if (it) {
                     disableViewsOnError()
                 } else {
-                    empty_text.visibility = View.GONE
-                    fetch_progress.visibility = View.VISIBLE
+                    empty_text_search.visibility = View.GONE
+                    fetch_progress_search.visibility = View.VISIBLE
                 }
             }
         })
     }
 
     private fun disableViewsOnError() {
-        fetch_progress.visibility = View.VISIBLE
-        empty_text.visibility = View.VISIBLE
-        recycler_view.visibility = View.GONE
+        fetch_progress_search.visibility = View.VISIBLE
+        empty_text_search.visibility = View.VISIBLE
+        recycler_view_search.visibility = View.GONE
         trendingAdapter.setUpData(emptyList(), {}, {})
-        fetch_progress.visibility = View.GONE
+        fetch_progress_search.visibility = View.GONE
     }
 
     private var gifForSave: Data? = null
@@ -102,8 +107,8 @@ class SearchFragment() : Fragment() {
         viewModel.repository.data.observe(this, Observer { giphies ->
             giphies.let {
                 if (it != null && it.isNotEmpty()) {
-                    fetch_progress.visibility = View.VISIBLE
-                    recycler_view.visibility = View.VISIBLE
+                    fetch_progress_search.visibility = View.VISIBLE
+                    recycler_view_search.visibility = View.VISIBLE
                     trendingAdapter.setUpData(it,
                         { gif ->
                             //viewModel.gifShare(gif, requireContext())
@@ -123,8 +128,8 @@ class SearchFragment() : Fragment() {
                             }
                         }
                     )
-                    empty_text.visibility = View.GONE
-                    fetch_progress.visibility = View.GONE
+                    empty_text_search.visibility = View.GONE
+                    fetch_progress_search.visibility = View.GONE
                 } else {
                     disableViewsOnError()
                 }

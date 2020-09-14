@@ -16,10 +16,10 @@ class SearchViewModel : ViewModel() {
 
     init {
         DaggerAppComponent.create().inject(this)
-        compositeDisposable.add(repository.fetchSearchDataFromDataBase("Олег"))
     }
 
     fun search(searchText:String) {
+        compositeDisposable.add(repository.fetchSearchDataFromDataBase(searchText))
         repository.insertSearchData(searchText)
     }
 
