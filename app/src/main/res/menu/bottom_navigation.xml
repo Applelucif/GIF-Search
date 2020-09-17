@@ -2,10 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/favorite"
-        android:icon="@drawable/ic_star"
-        android:title="Favorite"/>
+        android:icon="@drawable/ic_top"
+        android:title="Favorite" />
     <item
         android:id="@+id/search"
-        android:icon="@drawable/ic_browsing"
-        android:title="Search"/>
+        android:icon="@drawable/ic_magnifying_glass"
+        android:title="Search" />
 </menu>
