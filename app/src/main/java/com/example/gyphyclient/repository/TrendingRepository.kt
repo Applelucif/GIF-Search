@@ -22,6 +22,8 @@ import javax.inject.Inject
 
 class TrendingRepository {
 
+    var offset = 0
+
     @Inject
     lateinit var giphyApiService: GiphyApi
 
@@ -42,8 +44,8 @@ class TrendingRepository {
         DaggerAppComponent.create().inject(this)
     }
 
-    private fun insertData(): Disposable {
-        return giphyApiService.getTrending(KEY, LIMIT, RATING)
+    fun insertData(offset : Int = 0): Disposable {
+        return giphyApiService.getTrending(KEY, LIMIT, RATING, offset.toString())
             .subscribeOn(Schedulers.io())
             .subscribeWith(subscribeToDatabase())
     }
@@ -119,7 +121,7 @@ class TrendingRepository {
                         _isError.postValue(false)
                         _data.postValue(dataEntityList.toDataList())
                     } else {
-                        insertData()
+                        insertData(offset)
                     }
                     _isInProgress.postValue(false)
                 },

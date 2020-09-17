@@ -1,9 +1,12 @@
 package com.example.gyphyclient.view.ui
 
 import android.Manifest
+import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.os.Environment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,12 +18,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gyphyclient.R
 import com.example.gyphyclient.di.DaggerAppComponent
 import com.example.gyphyclient.model.Data
 import com.example.gyphyclient.view.adapter.TrendingAdapter
 import com.example.gyphyclient.viewmodel.TrendingViewModel
-import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.android.synthetic.main.fragment_top.*
 import kotlinx.android.synthetic.main.fragment_top.recycler_view
 import javax.inject.Inject
@@ -55,7 +58,6 @@ class TrendingFragment : Fragment() {
         observeIsError()
         observeGiphyList()
     }
-
 
     private var gifForSave: Data? = null
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
@@ -160,6 +162,10 @@ class TrendingFragment : Fragment() {
             setHasFixedSize(true)
             itemAnimator = DefaultItemAnimator()
             adapter = trendingAdapter
+            layoutManager = LinearLayoutManager(context)
+            setActionInTheEnd {
+                viewModel.getData(adapter?.itemCount ?: 0)
+            }
         }
     }
 

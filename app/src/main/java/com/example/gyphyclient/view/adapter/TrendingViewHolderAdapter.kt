@@ -62,5 +62,5 @@ class TrendingAdapter(val data: ArrayList<Data>) : RecyclerView.Adapter <Trendin
         return data.size
     }
 
-    
+
 }

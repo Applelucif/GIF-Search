@@ -5,6 +5,7 @@ import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.database.Cursor
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
@@ -16,6 +17,9 @@ import com.example.gyphyclient.repository.TrendingRepository
 import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import java.io.File
+import java.io.FileOutputStream
+import java.io.OutputStream
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -28,9 +32,14 @@ class TrendingViewModel : ViewModel() {
     private val compositeDisposable by lazy { CompositeDisposable() }
     private val downloadsDisposable by lazy { CompositeDisposable() }
 
+
     init {
         DaggerAppComponent.create().inject(this)
         compositeDisposable.add(repository.fetchDataFromDatabase())
+    }
+
+    fun getData (offset : Int) {
+        repository.insertData(offset)
     }
 
     override fun onCleared() {

@@ -10,7 +10,8 @@ interface GiphyApi {
     fun getTrending(
         @Query("api_key") apiKey: String,
         @Query("limit") limit: String,
-        @Query("rating") rating: String
+        @Query("rating") rating: String,
+        @Query("offset") offset: String
     ): Flowable<Result>
     @GET("v1/gifs/search")
     fun getSeach(
