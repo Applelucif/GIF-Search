@@ -39,7 +39,6 @@ class TrendingRepository {
     val isError: LiveData<Boolean>
         get() = _isError
 
-
     init {
         DaggerAppComponent.create().inject(this)
     }
@@ -51,7 +50,6 @@ class TrendingRepository {
     }
 
     fun insertSearchData(searchTerm: String): Disposable {
-
         return giphyApiService.getSeach(KEY, LIMIT, RATING, searchTerm)
             .subscribeOn(Schedulers.io())
             .subscribeWith(subscribeToSearchDatabase(searchTerm))
@@ -79,8 +77,6 @@ class TrendingRepository {
                 getTrendingQuery()
             }
         }
-
-
     }
 
     private fun subscribeToSearchDatabase(searchTerm: String): DisposableSubscriber<Result> {
@@ -105,8 +101,6 @@ class TrendingRepository {
                 getSearchingQuery(searchTerm)
             }
         }
-
-
     }
 
     private fun getTrendingQuery(): Disposable {
@@ -162,5 +156,4 @@ class TrendingRepository {
                 }
             )
     }
-
 }

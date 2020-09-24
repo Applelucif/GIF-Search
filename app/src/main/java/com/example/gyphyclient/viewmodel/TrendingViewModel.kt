@@ -9,14 +9,20 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
+import android.widget.Button
+import android.widget.ImageView
 import androidx.annotation.RequiresApi
+import androidx.core.graphics.toColor
 import androidx.lifecycle.ViewModel
+import com.example.gyphyclient.R
+import com.example.gyphyclient.di.AppComponent
 import com.example.gyphyclient.di.DaggerAppComponent
 import com.example.gyphyclient.model.Data
 import com.example.gyphyclient.repository.TrendingRepository
 import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import kotlinx.android.synthetic.main.item_giphy.view.*
 import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStream
@@ -50,7 +56,7 @@ class TrendingViewModel : ViewModel() {
     fun gifShare(data: Data, context: Context) {
         val sendIntent: Intent = Intent().apply {
             action = Intent.ACTION_SEND
-            putExtra(Intent.EXTRA_TEXT, data.images.downsized_large?.url)
+            putExtra(Intent.EXTRA_TEXT, data.images.original?.url)
             type = "text/plain"
         }
 
@@ -61,7 +67,7 @@ class TrendingViewModel : ViewModel() {
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     fun gifSave(data: Data, context: Context) {
         val downloadManager = context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
-        val uriGif: Uri = Uri.parse(data.images.downsized_large?.url.toString())
+        val uriGif: Uri = Uri.parse(data.images.original?.url.toString())
         val aExtDcimDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM)
         val request = DownloadManager
             .Request(uriGif)

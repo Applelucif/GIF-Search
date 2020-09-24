@@ -40,7 +40,6 @@ class SearchFragment() : Fragment() {
             observeInProgress()
             observeIsError()
             observeGiphyList()
-
         }
 
     }

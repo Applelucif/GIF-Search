@@ -1,12 +1,9 @@
 package com.example.gyphyclient.view.ui
 
 import android.Manifest
-import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
-import android.os.Environment
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,27 +15,29 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DefaultItemAnimator
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.gyphyclient.R
 import com.example.gyphyclient.di.DaggerAppComponent
 import com.example.gyphyclient.model.Data
 import com.example.gyphyclient.view.adapter.TrendingAdapter
 import com.example.gyphyclient.viewmodel.TrendingViewModel
 import kotlinx.android.synthetic.main.fragment_top.*
-import kotlinx.android.synthetic.main.fragment_top.recycler_view
 import javax.inject.Inject
+
 
 class TrendingFragment : Fragment() {
     @Inject
     lateinit var trendingAdapter: TrendingAdapter
     private val viewModel: TrendingViewModel by viewModels()
+    private var gridLayoutManager: GridLayoutManager? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_top,container,false)
+        return inflater.inflate(R.layout.fragment_top, container, false)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,6 +50,7 @@ class TrendingFragment : Fragment() {
         setUpRecyclerView()
 
         observeLiveData()
+
     }
 
     private fun observeLiveData() {
@@ -73,7 +73,11 @@ class TrendingFragment : Fragment() {
                         },
                         { gif ->
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                                if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                                if (ContextCompat.checkSelfPermission(
+                                        requireContext(),
+                                        Manifest.permission.WRITE_EXTERNAL_STORAGE
+                                    ) == PackageManager.PERMISSION_GRANTED
+                                ) {
                                     viewModel.gifSave(gif, requireContext())
                                 } else {
                                     gifForSave = gif
@@ -158,11 +162,12 @@ class TrendingFragment : Fragment() {
     }
 
     private fun setUpRecyclerView() {
+
         recycler_view.apply {
+            layoutManager = StaggeredGridLayoutManager(2, 1)
             setHasFixedSize(true)
             itemAnimator = DefaultItemAnimator()
             adapter = trendingAdapter
-            layoutManager = LinearLayoutManager(context)
             setActionInTheEnd {
                 viewModel.getData(adapter?.itemCount ?: 0)
             }

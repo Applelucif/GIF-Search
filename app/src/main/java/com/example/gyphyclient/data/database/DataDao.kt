@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import io.reactivex.Maybe
 import io.reactivex.Single
 
 @Dao
@@ -20,4 +21,7 @@ interface DataDao {
 
     @Query("SELECT * from searchData where searchText = :searchText")
     fun queryData(searchText:String): Single<List<DataSearchEntity>>
+
+    @Query("SELECT COUNT(hash) from data where hash = :hash")
+    fun queryDataHash(hash:String): Int
 }

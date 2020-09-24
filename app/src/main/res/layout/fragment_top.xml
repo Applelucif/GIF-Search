@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/lightPrimaryColor">
 
     <com.example.gyphyclient.view.EndlessRecyclerView
         android:id="@+id/recycler_view"
@@ -12,7 +13,7 @@
         android:layout_margin="8dp"
         android:clipToPadding="false"
         android:paddingBottom="8dp"
-        android:scrollbars="vertical" />
+        android:scrollbars="vertical"/>
 
     <ProgressBar
         android:id="@+id/fetch_progress"
