@@ -56,8 +56,6 @@ data class DataFavoriteEntity(
     val type: String,
     @ColumnInfo(name = "username")
     val username: String,
-    @ColumnInfo(name = "searchText")
-    val searchText: String,
     @ColumnInfo(name = "hash")
     val hash: String,
     @ColumnInfo(name = "smallImage")

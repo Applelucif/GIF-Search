@@ -20,6 +20,7 @@ import com.example.gyphyclient.model.Data
 import com.example.gyphyclient.view.adapter.TrendingAdapter
 import com.example.gyphyclient.viewmodel.SearchViewModel
 import kotlinx.android.synthetic.main.fragment_search.*
+import kotlinx.android.synthetic.main.item_giphy.*
 import javax.inject.Inject
 
 class SearchFragment() : Fragment() {

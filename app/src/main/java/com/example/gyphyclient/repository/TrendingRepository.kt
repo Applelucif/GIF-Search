@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.gyphyclient.GiphyApplication
+import com.example.gyphyclient.data.database.toDataEntity
 import com.example.gyphyclient.data.database.toDataEntityList
 import com.example.gyphyclient.data.database.toDataList
 import com.example.gyphyclient.data.database.toSearchDataEntityList
@@ -55,8 +56,8 @@ class TrendingRepository {
             .subscribeWith(subscribeToSearchDatabase(searchTerm))
     }
 
-    fun insertFavoriteData() {
-
+    fun insertFavoriteData(gif: Data) {
+        GiphyApplication.database.dataDao().insertFavoriteData(gif.toDataEntity())
     }
 
 
@@ -112,9 +113,9 @@ class TrendingRepository {
 
     fun fetchSearchDataFromDataBase(searchTerm: String): Disposable = getSearchingQuery(searchTerm)
 
-    fun fetchFavoriteDataFromDatabase(): Disposable = getFavoriteQuery()
+    fun fetchFavoriteDataFromDatabase(gif: Data): Disposable = getFavoriteQuery(gif)
 
-    private fun getFavoriteQuery(): Disposable {
+    private fun getFavoriteQuery(gif: Data): Disposable {
         return GiphyApplication.database.dataDao()
             .queryFavoriteData()
             .subscribeOn(Schedulers.io())
@@ -126,7 +127,7 @@ class TrendingRepository {
                         _isError.postValue(false)
                         _data.postValue(dataEntityList.toDataList())
                     } else {
-                        insertFavoriteData()
+                        insertFavoriteData(gif)
                     }
                     _isInProgress.postValue(false)
                 },

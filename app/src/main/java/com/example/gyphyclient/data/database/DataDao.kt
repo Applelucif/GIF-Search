@@ -16,6 +16,9 @@ interface DataDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertSearchData(data: List<DataSearchEntity>)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertFavoriteData(data: DataEntity)
+
     @Query("SELECT * from data")
     fun queryData(): Single<List<DataEntity>>
 

@@ -18,13 +18,16 @@ class FavoriteViewModel: ViewModel() {
 
 
     init {
-        DaggerAppComponent.create().inject(this)
-        compositeDisposable.add(repository.fetchFavoriteDataFromDatabase())
+
+        fun favorite(gif: Data) {
+            DaggerAppComponent.create().inject(this)
+            compositeDisposable.add(repository.fetchFavoriteDataFromDatabase(gif))
+        }
     }
 
-    fun getFavorite () {
+/*    fun getFavorite () {
         repository.insertFavoriteData()
-    }
+    }*/
 
     override fun onCleared() {
         super.onCleared()
