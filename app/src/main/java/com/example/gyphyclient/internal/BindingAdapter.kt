@@ -23,27 +23,30 @@ import java.util.*
 
 
 @BindingAdapter(*["bind:imageUrl", "bind:urlSmallGif", "bind:hash"])
-fun setImageUrl(imageView: ImageView, url: String?, urlSmallGif: String, hash: String) {
-    Glide.with(imageView.context)
-        .asGif()
-        .load(url)
-        // .thumbnail(Glide.with(imageView.context).asGif().load(urlSmallGif))
-        .diskCacheStrategy(DiskCacheStrategy.NONE)
-        .signature(ObjectKey(System.currentTimeMillis()))
-        .into(object : CustomTarget<GifDrawable>(100, 100) {
+fun setImage(imageView: ImageView, url: String?, urlSmallGif: String, hash: String) {
+    var imageFileName = hash + ".gif"
+    var storageDir =
+        File(imageView.context.cacheDir.absolutePath + "/image_manager_disk_cache")
+    val imageFile: File = File(storageDir, imageFileName)
 
-            override fun onResourceReady(
-                resource: GifDrawable,
-                transition: Transition<in GifDrawable>?
-            ) {
-                var imageFileName = hash + ".gif"
-                var storageDir =
-                    File(imageView.context.cacheDir.absolutePath + "/image_manager_disk_cache")
-                val imageFile: File = File(storageDir, imageFileName)
 
-                if (imageFile.exists()) {
-                }
-                else {
+    if (imageFile.exists()) {
+        Glide.with(imageView)
+            .load(imageFile)
+            .into(imageView)
+    } else {
+        Glide.with(imageView.context)
+            .asGif()
+            .load(url)
+            .thumbnail(Glide.with(imageView.context).asGif().load(urlSmallGif))
+            .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+            .signature(ObjectKey(System.currentTimeMillis()))
+            .into(object : CustomTarget<GifDrawable>(100, 100) {
+
+                override fun onResourceReady(
+                    resource: GifDrawable,
+                    transition: Transition<in GifDrawable>?
+                ) {
                     try {
                         val fOut: OutputStream = FileOutputStream(imageFile)
                         val byteBuffer = resource.buffer
@@ -53,14 +56,15 @@ fun setImageUrl(imageView: ImageView, url: String?, urlSmallGif: String, hash: S
                         fOut.close()
                     } catch (e: Exception) {
                         e.printStackTrace()
-                    }}
+                    }
                     Glide.with(imageView)
                         .load(imageFile)
                         .into(imageView)
-                    }
+                }
 
-            override fun onLoadCleared(placeholder: Drawable?) {
-            }
-        })
+                override fun onLoadCleared(placeholder: Drawable?) {
+                }
+            })
+    }
 
 }

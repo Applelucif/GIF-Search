@@ -19,10 +19,19 @@ fun DataSearchEntity.toData() = Data(
     this.username
 )
 
+fun DataFavoriteEntity.toData() = Data(
+    Images(Gif("320", "1024", this.images, "420", this.hash), Thumbnail("320", "1024", this.smallImage, "420")),
+    this.title,
+    this.type,
+    this.username
+)
+
 
 @JvmName("toDataListDataEntity")
 fun List<DataEntity>.toDataList() = this.map { it.toData() }
 fun List<DataSearchEntity>.toDataList() = this.map { it.toData() }
+@JvmName("toDataListDataFavoriteEntity")
+fun List<DataFavoriteEntity>.toDataList() = this.map { it.toData() }
 
 
 fun Data.toDataEntity() = DataEntity(

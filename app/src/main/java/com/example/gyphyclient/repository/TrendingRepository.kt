@@ -55,6 +55,11 @@ class TrendingRepository {
             .subscribeWith(subscribeToSearchDatabase(searchTerm))
     }
 
+    fun insertFavoriteData() {
+
+    }
+
+
     private fun subscribeToDatabase(): DisposableSubscriber<Result> {
         return object : DisposableSubscriber<Result>() {
             override fun onNext(result: Result?) {
@@ -103,6 +108,37 @@ class TrendingRepository {
         }
     }
 
+    fun fetchDataFromDatabase(): Disposable = getTrendingQuery()
+
+    fun fetchSearchDataFromDataBase(searchTerm: String): Disposable = getSearchingQuery(searchTerm)
+
+    fun fetchFavoriteDataFromDatabase(): Disposable = getFavoriteQuery()
+
+    private fun getFavoriteQuery(): Disposable {
+        return GiphyApplication.database.dataDao()
+            .queryFavoriteData()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                { dataEntityList ->
+                    _isInProgress.postValue(true)
+                    if (dataEntityList != null && dataEntityList.isNotEmpty()) {
+                        _isError.postValue(false)
+                        _data.postValue(dataEntityList.toDataList())
+                    } else {
+                        insertFavoriteData()
+                    }
+                    _isInProgress.postValue(false)
+                },
+                {
+                    _isInProgress.postValue(true)
+                    Log.e("getFavoriteQuery()", "Database error: ${it.message}")
+                    _isError.postValue(true)
+                    _isInProgress.postValue(false)
+                }
+            )
+    }
+
     private fun getTrendingQuery(): Disposable {
         return GiphyApplication.database.dataDao()
             .queryData()
@@ -127,10 +163,6 @@ class TrendingRepository {
                 }
             )
     }
-
-    fun fetchDataFromDatabase(): Disposable = getTrendingQuery()
-
-    fun fetchSearchDataFromDataBase(searchTerm: String): Disposable = getSearchingQuery(searchTerm)
 
     private fun getSearchingQuery(searchTerm: String): Disposable {
         return GiphyApplication.database.dataDao()

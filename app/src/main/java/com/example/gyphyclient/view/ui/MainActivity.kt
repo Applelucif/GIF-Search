@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
 
         bottomNavigationView.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
-                R.id.favorite -> {
+                R.id.top -> {
                     val fmTrending = supportFragmentManager
                     val transaction = fmTrending
                         .beginTransaction()
@@ -43,6 +43,13 @@ class MainActivity : AppCompatActivity() {
                     val transaction = fmSearch
                         .beginTransaction()
                         .replace(R.id.fragment_container, SearchFragment())
+                    transaction.commit()
+                }
+                R.id.favorite -> {
+                    val fmSearch = supportFragmentManager
+                    val transaction = fmSearch
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, FavoriteFragment())
                     transaction.commit()
                 }
             }

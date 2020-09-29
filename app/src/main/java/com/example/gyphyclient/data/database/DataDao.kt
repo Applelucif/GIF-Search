@@ -19,6 +19,9 @@ interface DataDao {
     @Query("SELECT * from data")
     fun queryData(): Single<List<DataEntity>>
 
+    @Query("SELECT * from favoriteData")
+    fun queryFavoriteData(): Single<List<DataFavoriteEntity>>
+
     @Query("SELECT * from searchData where searchText = :searchText")
     fun queryData(searchText:String): Single<List<DataSearchEntity>>
 
