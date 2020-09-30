@@ -144,6 +144,8 @@ class TrendingFragment : Fragment() {
     private fun setUpRecyclerView() {
 
         recycler_view.apply {
+            setItemViewCacheSize(50)
+            setDrawingCacheEnabled(true)
             layoutManager = StaggeredGridLayoutManager(2, 1)
             setHasFixedSize(true)
             itemAnimator = DefaultItemAnimator()

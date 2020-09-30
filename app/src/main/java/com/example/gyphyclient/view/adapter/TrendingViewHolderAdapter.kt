@@ -1,7 +1,6 @@
 package com.example.gyphyclient.view.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.databinding.DataBindingUtil
@@ -32,7 +31,7 @@ class TrendingViewHolder(
 class TrendingAdapter(val data: ArrayList<Data>) : RecyclerView.Adapter <TrendingViewHolder> () {
 
     private var shareGif: (Data)->Unit = {}
-    private var saveGif: (Data)->Unit = {}
+    private var favoriteGif: (Data)->Unit = {}
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrendingViewHolder {
         val itemGiphyBinding: ItemGiphyBinding = DataBindingUtil.inflate(
@@ -50,12 +49,12 @@ class TrendingAdapter(val data: ArrayList<Data>) : RecyclerView.Adapter <Trendin
         data.addAll(giphies)
         notifyDataSetChanged()
         this.shareGif = shareGif
-        this.saveGif = saveGif
+        this.favoriteGif = saveGif
     }
 
     override fun onBindViewHolder(holder: TrendingViewHolder, position: Int) {
         val gif = data[position]
-        holder.bind(gif, shareGif, saveGif)
+        holder.bind(gif, shareGif, favoriteGif)
     }
 
     override fun getItemCount(): Int {
