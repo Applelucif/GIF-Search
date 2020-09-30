@@ -29,8 +29,8 @@ fun DataFavoriteEntity.toData() = Data(
 
 @JvmName("toDataListDataEntity")
 fun List<DataEntity>.toDataList() = this.map { it.toData() }
+@JvmName("toDataListDataSearchEntity")
 fun List<DataSearchEntity>.toDataList() = this.map { it.toData() }
-@JvmName("toDataListDataFavoriteEntity")
 fun List<DataFavoriteEntity>.toDataList() = this.map { it.toData() }
 
 
@@ -50,6 +50,15 @@ fun Data.toDataEntity(searchText:String) = DataSearchEntity(
     type = this.type,
     username = this.username,
     searchText = searchText,
+    hash = this.images.original?.hash ?: "empty hash"
+)
+
+fun Data.toDataFavoriteEntity() = DataFavoriteEntity(
+    images = this.images.original?.url ?: "empty url",
+    smallImage = this.images.fixed_height_small_still?.smallImage ?: "empty url",
+    title = this.title,
+    type = this.type,
+    username = this.username,
     hash = this.images.original?.hash ?: "empty hash"
 )
 

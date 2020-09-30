@@ -9,7 +9,7 @@ import com.example.gyphyclient.repository.TrendingRepository
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
-class FavoriteViewModel: ViewModel() {
+class FavoriteViewModel : ViewModel() {
 
     @Inject
     lateinit var repository: TrendingRepository
@@ -18,16 +18,9 @@ class FavoriteViewModel: ViewModel() {
 
 
     init {
-
-        fun favorite(gif: Data) {
-            DaggerAppComponent.create().inject(this)
-            compositeDisposable.add(repository.fetchFavoriteDataFromDatabase(gif))
-        }
+        DaggerAppComponent.create().inject(this)
+        compositeDisposable.add(repository.fetchFavoriteDataFromDatabase())
     }
-
-/*    fun getFavorite () {
-        repository.insertFavoriteData()
-    }*/
 
     override fun onCleared() {
         super.onCleared()

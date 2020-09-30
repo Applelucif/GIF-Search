@@ -14,7 +14,7 @@ class TrendingViewHolder(
     private val itemGiphyBinding: ItemGiphyBinding
 ) : RecyclerView.ViewHolder(itemGiphyBinding.root) {
     private val shareBtn: ImageView = itemGiphyBinding.root.findViewById(R.id.share_button)
-    private val saveBtn: ImageView = itemGiphyBinding.root.findViewById(R.id.save_button)
+    private val saveBtn: ImageView = itemGiphyBinding.root.findViewById(R.id.favorite_button)
 
     fun bind(gif: Data, shareGif: (Data) -> Unit, saveGif:(Data) -> Unit) {
         itemGiphyBinding.data = gif

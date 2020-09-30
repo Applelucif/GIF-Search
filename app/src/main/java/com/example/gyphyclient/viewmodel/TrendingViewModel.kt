@@ -64,6 +64,13 @@ class TrendingViewModel : ViewModel() {
         context.startActivity(shareIntent)
     }
 
+    fun addToFavorite (gif: Data) {
+        Thread{
+            repository.insertFavoriteData(gif)
+        }.start()
+
+    }
+
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     fun gifSave(data: Data, context: Context) {
         val downloadManager = context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager

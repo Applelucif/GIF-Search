@@ -4,6 +4,7 @@ import com.example.gyphyclient.data.network.GiphyApi
 import com.example.gyphyclient.data.network.GiphyApiService
 import com.example.gyphyclient.model.Data
 import com.example.gyphyclient.repository.TrendingRepository
+import com.example.gyphyclient.view.adapter.FavoriteAdapter
 import com.example.gyphyclient.view.adapter.TrendingAdapter
 import dagger.Module
 import dagger.Provides
@@ -24,4 +25,8 @@ class AppModule {
 
     @Provides
     fun provideTrendingAdapter(data: ArrayList<Data>): TrendingAdapter = TrendingAdapter(data)
+
+    @Provides
+    fun provideFavoriteAdapter(data: ArrayList<Data>): FavoriteAdapter = FavoriteAdapter(data)
+
 }

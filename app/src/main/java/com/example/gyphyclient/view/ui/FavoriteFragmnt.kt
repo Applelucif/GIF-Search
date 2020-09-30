@@ -14,10 +14,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.gyphyclient.R
 import com.example.gyphyclient.di.DaggerAppComponent
 import com.example.gyphyclient.model.Data
-import com.example.gyphyclient.view.adapter.TrendingAdapter
+import com.example.gyphyclient.view.adapter.FavoriteAdapter
+import com.example.gyphyclient.view.adapter.FavoriteViewHolder
 import com.example.gyphyclient.viewmodel.FavoriteViewModel
 import kotlinx.android.synthetic.main.favorite_fragment.*
 import javax.inject.Inject
@@ -27,7 +29,7 @@ class FavoriteFragment(): Fragment() {
     private val viewModel: FavoriteViewModel by viewModels()
 
     @Inject
-    lateinit var trendingAdapter: TrendingAdapter
+    lateinit var favoriteAdapter: FavoriteAdapter
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -58,9 +60,10 @@ class FavoriteFragment(): Fragment() {
 
     private fun setUpRecyclerView() {
         recycler_view.apply {
+            layoutManager = StaggeredGridLayoutManager(2, 1)
             setHasFixedSize(true)
             itemAnimator = DefaultItemAnimator()
-            adapter = trendingAdapter
+            adapter = favoriteAdapter
         }
     }
 
@@ -95,11 +98,10 @@ class FavoriteFragment(): Fragment() {
         fetch_progress.visibility = View.VISIBLE
         empty_text.visibility = View.VISIBLE
         recycler_view.visibility = View.GONE
-        trendingAdapter.setUpData(emptyList(), {}, {})
+        favoriteAdapter.setUpData(emptyList(), {})
         fetch_progress.visibility = View.GONE
     }
 
-    private var gifForSave: Data? = null
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private fun observeGiphyList() {
         viewModel.repository.data.observe(this, Observer { giphies ->
@@ -107,25 +109,10 @@ class FavoriteFragment(): Fragment() {
                 if (it != null && it.isNotEmpty()) {
                     fetch_progress.visibility = View.VISIBLE
                     recycler_view.visibility = View.VISIBLE
-                    trendingAdapter.setUpData(it,
-                        { gif ->
-                            //viewModel.gifShare(gif, requireContext())
-                        },
-                        { gif ->
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                                if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                                    //viewModel.gifSave(gif, requireContext())
-                                } else {
-                                    gifForSave = gif
-                                    ActivityCompat.requestPermissions(
-                                        requireActivity(),
-                                        arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                                        TrendingFragment.REQUEST_PERMISSION_WRITE_TO_EXT_STORAGE_CODE
-                                    )
-                                }
-                            }
-                        }
-                    )
+                    favoriteAdapter.setUpData(it
+                    ) { gif ->
+                        viewModel.gifShare(gif, requireContext())
+                    }
                     empty_text.visibility = View.GONE
                     fetch_progress.visibility = View.GONE
                 } else {

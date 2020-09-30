@@ -5,10 +5,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.gyphyclient.GiphyApplication
-import com.example.gyphyclient.data.database.toDataEntity
-import com.example.gyphyclient.data.database.toDataEntityList
-import com.example.gyphyclient.data.database.toDataList
-import com.example.gyphyclient.data.database.toSearchDataEntityList
+import com.example.gyphyclient.data.database.*
 import com.example.gyphyclient.data.network.GiphyApi
 import com.example.gyphyclient.di.DaggerAppComponent
 import com.example.gyphyclient.internal.LIMIT
@@ -57,7 +54,7 @@ class TrendingRepository {
     }
 
     fun insertFavoriteData(gif: Data) {
-        GiphyApplication.database.dataDao().insertFavoriteData(gif.toDataEntity())
+        GiphyApplication.database.dataDao().insertFavoriteData(gif.toDataFavoriteEntity())
     }
 
 
@@ -113,9 +110,9 @@ class TrendingRepository {
 
     fun fetchSearchDataFromDataBase(searchTerm: String): Disposable = getSearchingQuery(searchTerm)
 
-    fun fetchFavoriteDataFromDatabase(gif: Data): Disposable = getFavoriteQuery(gif)
+    fun fetchFavoriteDataFromDatabase(): Disposable = getFavoriteQuery()
 
-    private fun getFavoriteQuery(gif: Data): Disposable {
+    private fun getFavoriteQuery(): Disposable {
         return GiphyApplication.database.dataDao()
             .queryFavoriteData()
             .subscribeOn(Schedulers.io())
@@ -126,8 +123,6 @@ class TrendingRepository {
                     if (dataEntityList != null && dataEntityList.isNotEmpty()) {
                         _isError.postValue(false)
                         _data.postValue(dataEntityList.toDataList())
-                    } else {
-                        insertFavoriteData(gif)
                     }
                     _isInProgress.postValue(false)
                 },

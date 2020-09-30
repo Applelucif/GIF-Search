@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.gyphyclient.internal.DATABASE_NAME
 
-@Database(entities = [DataEntity::class, DataSearchEntity::class], version = 1)
+@Database(entities = [DataEntity::class, DataSearchEntity::class, DataFavoriteEntity::class], version = 1)
 abstract class TrendingDatabase : RoomDatabase() {
     abstract fun dataDao(): DataDao
 

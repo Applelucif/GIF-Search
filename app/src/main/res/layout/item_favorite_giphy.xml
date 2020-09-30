@@ -24,7 +24,6 @@
 
             <ImageView
                 android:id="@+id/trending_image"
-                android:scaleType="fitXY"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:imageUrl="@{data.images.original.url}"
@@ -45,18 +44,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:srcCompat="@drawable/ic_share"
-                />
-
-            <ImageView
-                android:id="@+id/favorite_button"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:padding="5dp"
-                tools:ignore="MissingConstraints"
-                android:background="@drawable/selector_buttons"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/share_button"
-                app:srcCompat="@drawable/ic_favorite"
                 />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,6 +1,5 @@
 package com.example.gyphyclient.view.ui
 
-import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -9,13 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DefaultItemAnimator
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.gyphyclient.R
 import com.example.gyphyclient.di.DaggerAppComponent
@@ -30,7 +26,6 @@ class TrendingFragment : Fragment() {
     @Inject
     lateinit var trendingAdapter: TrendingAdapter
     private val viewModel: TrendingViewModel by viewModels()
-    private var gridLayoutManager: GridLayoutManager? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -72,22 +67,7 @@ class TrendingFragment : Fragment() {
                             viewModel.gifShare(gif, requireContext())
                         },
                         { gif ->
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                                if (ContextCompat.checkSelfPermission(
-                                        requireContext(),
-                                        Manifest.permission.WRITE_EXTERNAL_STORAGE
-                                    ) == PackageManager.PERMISSION_GRANTED
-                                ) {
-                                    viewModel.gifSave(gif, requireContext())
-                                } else {
-                                    gifForSave = gif
-                                    ActivityCompat.requestPermissions(
-                                        requireActivity(),
-                                        arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                                        REQUEST_PERMISSION_WRITE_TO_EXT_STORAGE_CODE
-                                    )
-                                }
-                            }
+                            viewModel.addToFavorite(gif)
                         }
                     )
                     empty_text.visibility = View.GONE
