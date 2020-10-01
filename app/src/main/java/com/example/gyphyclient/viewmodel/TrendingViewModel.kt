@@ -56,7 +56,7 @@ class TrendingViewModel : ViewModel() {
     fun gifShare(data: Data, context: Context) {
         val sendIntent: Intent = Intent().apply {
             action = Intent.ACTION_SEND
-            putExtra(Intent.EXTRA_TEXT, data.images.original?.url)
+            putExtra(Intent.EXTRA_TEXT, data.images.original?.webp)
             type = "text/plain"
         }
 
@@ -74,7 +74,7 @@ class TrendingViewModel : ViewModel() {
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     fun gifSave(data: Data, context: Context) {
         val downloadManager = context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
-        val uriGif: Uri = Uri.parse(data.images.original?.url.toString())
+        val uriGif: Uri = Uri.parse(data.images.original?.webp.toString())
         val aExtDcimDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM)
         val request = DownloadManager
             .Request(uriGif)

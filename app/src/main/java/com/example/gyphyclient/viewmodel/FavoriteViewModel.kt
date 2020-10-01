@@ -30,7 +30,7 @@ class FavoriteViewModel : ViewModel() {
     fun gifShare(data: Data, context: Context) {
         val sendIntent: Intent = Intent().apply {
             action = Intent.ACTION_SEND
-            putExtra(Intent.EXTRA_TEXT, data.images.original?.url)
+            putExtra(Intent.EXTRA_TEXT, data.images.original?.webp)
             type = "text/plain"
         }
 

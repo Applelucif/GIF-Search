@@ -35,7 +35,7 @@ fun List<DataFavoriteEntity>.toDataList() = this.map { it.toData() }
 
 
 fun Data.toDataEntity() = DataEntity(
-    images = this.images.original?.url ?: "empty url",
+    images = this.images.original?.webp ?: "empty url",
     smallImage = this.images.fixed_height_small_still?.smallImage ?: "empty url",
     title = this.title,
     type = this.type,
@@ -44,7 +44,7 @@ fun Data.toDataEntity() = DataEntity(
 )
 
 fun Data.toDataEntity(searchText:String) = DataSearchEntity(
-    images = this.images.original?.url ?: "empty url",
+    images = this.images.original?.webp ?: "empty url",
     smallImage = this.images.fixed_height_small_still?.smallImage ?: "empty url",
     title = this.title,
     type = this.type,
@@ -54,7 +54,7 @@ fun Data.toDataEntity(searchText:String) = DataSearchEntity(
 )
 
 fun Data.toDataFavoriteEntity() = DataFavoriteEntity(
-    images = this.images.original?.url ?: "empty url",
+    images = this.images.original?.webp ?: "empty url",
     smallImage = this.images.fixed_height_small_still?.smallImage ?: "empty url",
     title = this.title,
     type = this.type,

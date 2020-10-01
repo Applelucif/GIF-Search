@@ -24,10 +24,9 @@
 
             <ImageView
                 android:id="@+id/trending_image"
-                android:scaleType="fitXY"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:imageUrl="@{data.images.original.url}"
+                app:imageUrl="@{data.images.original.webp}"
                 app:urlSmallGif="@{data.images.fixed_height_small_still.smallImage}"
                 app:hash="@{data.images.original.hash}"
                 app:layout_constraintBottom_toBottomOf="parent"
