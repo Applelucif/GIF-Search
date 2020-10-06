@@ -11,7 +11,6 @@ import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.gyphyclient.R
 import com.example.gyphyclient.di.DaggerAppComponent
@@ -144,11 +143,8 @@ class TrendingFragment : Fragment() {
     private fun setUpRecyclerView() {
 
         recycler_view.apply {
-            setItemViewCacheSize(50)
-            setDrawingCacheEnabled(true)
             layoutManager = StaggeredGridLayoutManager(2, 1)
             setHasFixedSize(true)
-            itemAnimator = DefaultItemAnimator()
             adapter = trendingAdapter
             setActionInTheEnd {
                 viewModel.getData(adapter?.itemCount ?: 0)

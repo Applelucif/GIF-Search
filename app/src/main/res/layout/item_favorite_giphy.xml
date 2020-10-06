@@ -8,6 +8,9 @@
         <variable
             name="data"
             type="com.example.gyphyclient.model.Data" />
+        <variable
+            name="mainActivity"
+            type="com.example.gyphyclient.view.ui.MainActivity" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -22,17 +25,18 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <ImageView
-                android:id="@+id/trending_image"
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/simpleDraweeView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:imageUrl="@{data.images.original.webp}"
                 app:urlSmallGif="@{data.images.fixed_height_small_still.smallImage}"
                 app:hash="@{data.images.original.hash}"
+                app:height="@{data.images.original.height}"
+                app:width="@{data.images.original.width}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:src="@drawable/ic_launcher_background" />
+                app:layout_constraintTop_toTopOf="parent"/>
 
             <ImageView
                 android:id="@+id/share_button"

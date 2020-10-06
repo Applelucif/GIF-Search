@@ -1,69 +1,65 @@
 package com.example.gyphyclient.internal
 
-import android.graphics.Bitmap
-import android.graphics.drawable.Drawable
-import android.widget.ImageView
+import android.net.Uri
 import androidx.databinding.BindingAdapter
-import com.bumptech.glide.Glide
-import com.bumptech.glide.integration.webp.decoder.WebpDrawable
-import com.bumptech.glide.integration.webp.decoder.WebpDrawableTransformation
-import com.bumptech.glide.load.Transformation
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.load.resource.bitmap.CenterCrop
-import com.bumptech.glide.load.resource.bitmap.CircleCrop
-import com.bumptech.glide.load.resource.bitmap.FitCenter
-import com.bumptech.glide.load.resource.gif.GifDrawable
-import com.bumptech.glide.request.target.CustomTarget
-import com.bumptech.glide.request.transition.Transition
+import com.facebook.binaryresource.FileBinaryResource
+import com.facebook.cache.common.CacheKey
+import com.facebook.drawee.backends.pipeline.Fresco
+import com.facebook.drawee.interfaces.DraweeController
+import com.facebook.drawee.view.SimpleDraweeView
+import com.facebook.imagepipeline.cache.DefaultCacheKeyFactory
+import com.facebook.imagepipeline.core.ImagePipelineFactory
+import com.facebook.imagepipeline.request.ImageRequest
 import java.io.File
-import java.io.FileOutputStream
-import java.io.OutputStream
-import java.nio.ByteBuffer
 
-
-@BindingAdapter(*["bind:imageUrl", "bind:urlSmallGif", "bind:hash"])
-fun setImage(imageView: ImageView, url: String?, urlSmallGif: String, hash: String) {
+@BindingAdapter(*["bind:imageUrl", "bind:urlSmallGif", "bind:hash", "bind:height", "bind:width"])
+fun setImage(
+    imageView: SimpleDraweeView,
+    url: String,
+    urlSmallGif: String,
+    hash: String,
+    height: String,
+    width: String
+) {
     var imageFileName = hash + ".webp"
     var storageDir =
         File(imageView.context.cacheDir.absolutePath + "/image_manager_disk_cache")
     val imageFile: File = File(storageDir, imageFileName)
-
+    var aspectRatio: Float = (width.toFloat() / height.toFloat())
+    var controller: DraweeController? = null
 
     if (imageFile.exists()) {
-        Glide.with(imageView)
-            .load(imageFile)
-            .into(imageView)
+        val uri: Uri = Uri.parse("file://" + imageFile.path)
+        controller = Fresco.newDraweeControllerBuilder()
+            .setUri(uri)
+            .setAutoPlayAnimations(true)
+            .build()
+        imageView.apply {
+            setAspectRatio(aspectRatio)
+            setController(controller)
+        }
     } else {
-        val fitCenter: Transformation<Bitmap> = FitCenter()
-        Glide.with(imageView.context)
-            .load(url)
-            .diskCacheStrategy(DiskCacheStrategy.NONE)
-            .optionalTransform(fitCenter)
-            .optionalTransform(WebpDrawable::class.java, WebpDrawableTransformation(fitCenter))
-            .into(imageView)/*(object : CustomTarget<WebpDrawable>(100, 100) {
+        val uri: Uri = Uri.parse(url)
+        controller = Fresco.newDraweeControllerBuilder()
+            .setUri(uri)
+            .setAutoPlayAnimations(true)
+            .build()
+        imageView.apply {
+            setAspectRatio(aspectRatio)
+            setController(controller)
+        }
 
-                override fun onLoadCleared(placeholder: Drawable?) {
-                }
-
-                override fun onResourceReady(
-                    resource: WebpDrawable,
-                    transition: Transition<in WebpDrawable>?
-                ) {
-                    try {
-                        val fOut: OutputStream = FileOutputStream(imageFile)
-                        val byteBuffer = resource.buffer
-                        val bytes = ByteArray(byteBuffer.capacity())
-                        (byteBuffer.duplicate().clear() as ByteBuffer).get(bytes)
-                        fOut.write(bytes, 0, bytes.size)
-                        fOut.close()
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                    }
-                    Glide.with(imageView)
-                        .load(imageFile)
-                        .into(imageView)
-                }
-            })*/
+        val imageRequest = ImageRequest.fromUri(url)
+        try {
+            val cacheKey: CacheKey = DefaultCacheKeyFactory.getInstance()
+                .getEncodedCacheKey(imageRequest, null)
+            val resource = ImagePipelineFactory
+                .getInstance()
+                .mainFileCache
+                .getResource(cacheKey)
+            val file = (resource as FileBinaryResource).file
+            file.copyTo(imageFile)
+        } catch (e: NullPointerException) {
+        }
     }
-
 }

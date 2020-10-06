@@ -1,24 +1,18 @@
 package com.example.gyphyclient.view.ui
 
+import android.graphics.Point
 import android.os.Bundle
-import android.view.MenuItem
-import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatActivity
-import com.example.gyphyclient.GiphyApplication
 import com.example.gyphyclient.R
+import com.facebook.drawee.backends.pipeline.Fresco
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
 class MainActivity : AppCompatActivity() {
 
-
-    lateinit var favoriteFragment: TrendingFragment
-    lateinit var searchFragment: SearchFragment
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        Fresco.initialize(this)
         setContentView(R.layout.activity_main)
 
         val fm = supportFragmentManager

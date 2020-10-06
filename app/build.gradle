@@ -50,6 +50,15 @@ dependencies {
     def room_version = "2.2.5"
     def first_stable_version = '1.0.0'
 
+    implementation('com.facebook.fresco:fresco:2.3.0') {
+        exclude group: 'com.facebook.soloader', module: 'soloader'
+        exclude group: 'com.facebook.fresco', module: 'soloader'
+        exclude group: 'com.facebook.fresco', module: 'nativeimagefilters'
+        exclude group: 'com.facebook.fresco', module: 'nativeimagetranscoder'
+        exclude group: 'com.facebook.fresco', module: 'memory-type-native'
+        exclude group: 'com.facebook.fresco', module: 'imagepipeline-native'
+    }
+
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.2.0'
@@ -72,6 +81,15 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     implementation "androidx.activity:activity-ktx:$androidx_version"
     implementation "androidx.fragment:fragment-ktx:$androidx_version"
+
+    // Frecso for Images
+    implementation 'com.facebook.fresco:fresco:2.3.0'
+    implementation 'com.facebook.fresco:animated-webp:2.3.0'
+    implementation 'com.facebook.fresco:webpsupport:2.3.0'
+    implementation 'com.facebook.fresco:webpsupport:2.3.0'
+    //noinspection GradleCompatible
+    implementation 'com.android.support:support-core-utils:24.2.1'
+
     // Glide for Images
     def GLIDE_VERSION = "4.11.0"
     // webpdecoder

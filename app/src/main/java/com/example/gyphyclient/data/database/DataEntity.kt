@@ -19,7 +19,11 @@ data class DataEntity(
     @ColumnInfo(name = "hash")
     val hash: String,
     @ColumnInfo(name = "smallImage")
-    val smallImage: String
+    val smallImage: String,
+    @ColumnInfo(name = "height")
+    val height: String,
+    @ColumnInfo(name = "width")
+    val width: String
 )
 
 @Entity(tableName = "searchData")
@@ -40,7 +44,11 @@ data class DataSearchEntity(
     @ColumnInfo(name = "hash")
     val hash: String,
     @ColumnInfo(name = "smallImage")
-    val smallImage: String
+    val smallImage: String,
+    @ColumnInfo(name = "height")
+    val height: String,
+    @ColumnInfo(name = "width")
+    val width: String
 )
 
 @Entity(tableName = "favoriteData")
@@ -57,5 +65,9 @@ data class DataFavoriteEntity(
     @ColumnInfo(name = "hash")
     val hash: String,
     @ColumnInfo(name = "smallImage")
-    val smallImage: String
+    val smallImage: String,
+    @ColumnInfo(name = "height")
+    val height: String,
+    @ColumnInfo(name = "width")
+    val width: String
 )

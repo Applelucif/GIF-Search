@@ -10,8 +10,10 @@ import com.example.gyphyclient.data.network.GiphyApi
 import com.example.gyphyclient.di.DaggerAppComponent
 import com.example.gyphyclient.internal.LIMIT
 import com.example.gyphyclient.internal.RATING
+import com.example.gyphyclient.internal.SEARCHLIMIT
 import com.example.gyphyclient.model.Data
 import com.example.gyphyclient.model.Result
+import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
@@ -25,15 +27,15 @@ class TrendingRepository {
     @Inject
     lateinit var giphyApiService: GiphyApi
 
-    private val _data by lazy { MutableLiveData<List<Data>>() }
+    val _data by lazy { MutableLiveData<List<Data>>() }
     val data: LiveData<List<Data>>
         get() = _data
 
-    private val _isInProgress by lazy { MutableLiveData<Boolean>() }
+    val _isInProgress by lazy { MutableLiveData<Boolean>() }
     val isInProgress: LiveData<Boolean>
         get() = _isInProgress
 
-    private val _isError by lazy { MutableLiveData<Boolean>() }
+    val _isError by lazy { MutableLiveData<Boolean>() }
     val isError: LiveData<Boolean>
         get() = _isError
 
@@ -48,7 +50,7 @@ class TrendingRepository {
     }
 
     fun insertSearchData(searchTerm: String): Disposable {
-        return giphyApiService.getSeach(KEY, LIMIT, RATING, searchTerm)
+        return giphyApiService.getSeach(KEY, SEARCHLIMIT, RATING, searchTerm)
             .subscribeOn(Schedulers.io())
             .subscribeWith(subscribeToSearchDatabase(searchTerm))
     }
@@ -161,16 +163,16 @@ class TrendingRepository {
     }
 
     private fun getSearchingQuery(searchTerm: String): Disposable {
-        return GiphyApplication.database.dataDao()
-            .queryData(searchTerm)
+
+        return querySearchData(searchTerm)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                 { dataEntityList ->
                     _isInProgress.postValue(true)
-                    if (dataEntityList != null && dataEntityList.isNotEmpty()) {
+                    if (dataEntityList != null && dataEntityList.second.isNotEmpty()) {
                         _isError.postValue(false)
-                        _data.postValue(dataEntityList.toDataList())
+                        _data.postValue(dataEntityList.second.toDataList())
                     } else {
                         insertSearchData(searchTerm)
                     }
@@ -183,5 +185,13 @@ class TrendingRepository {
                     _isInProgress.postValue(false)
                 }
             )
+    }
+
+    fun querySearchData(searchTerm: String): Single<Pair<String, List<DataSearchEntity>>> {
+        return GiphyApplication.database.dataDao()
+            .queryData(searchTerm)
+            .map {
+                searchTerm to it
+            }
     }
 }

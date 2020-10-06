@@ -39,7 +39,7 @@ class EndlessRecyclerView @JvmOverloads constructor(
                     var lastVisibleItemPositions =
                        (recyclerView.layoutManager as StaggeredGridLayoutManager).findLastVisibleItemPositions(null)
                     var lastVisibleItemPosition = getLastVisibleItem(lastVisibleItemPositions)
-                    if (!isLoading && lastVisibleItemPosition == totalItemCount - 5) {
+                    if (!isLoading && lastVisibleItemPosition == totalItemCount - 3) {
                         Toast.makeText(context, "The end, load next data", Toast.LENGTH_SHORT)
                             .show()
                         somethingActionWhenNearEnd() //когда наступит конец, здесь выполнится какое-то действие

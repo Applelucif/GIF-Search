@@ -1,15 +1,11 @@
 package com.example.gyphyclient.view.ui
 
-import android.Manifest
-import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -17,14 +13,12 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.gyphyclient.R
 import com.example.gyphyclient.di.DaggerAppComponent
-import com.example.gyphyclient.model.Data
 import com.example.gyphyclient.view.adapter.FavoriteAdapter
-import com.example.gyphyclient.view.adapter.FavoriteViewHolder
 import com.example.gyphyclient.viewmodel.FavoriteViewModel
 import kotlinx.android.synthetic.main.favorite_fragment.*
 import javax.inject.Inject
 
-class FavoriteFragment(): Fragment() {
+class FavoriteFragment: Fragment() {
 
     private val viewModel: FavoriteViewModel by viewModels()
 

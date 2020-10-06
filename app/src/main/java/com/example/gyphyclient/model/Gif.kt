@@ -3,7 +3,7 @@ package com.example.gyphyclient.model
 data class Gif(
     val height: String,
     val size: String,
-    val webp: String?,
+    val webp: String,
     val width: String,
     val hash: String
 )
@@ -11,6 +11,6 @@ data class Gif(
 data class Thumbnail(
     val height: String,
     val size: String,
-    val smallImage: String?,
+    val smallImage: String,
     val width: String
 )

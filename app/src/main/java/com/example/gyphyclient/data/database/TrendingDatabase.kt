@@ -26,6 +26,4 @@ abstract class TrendingDatabase : RoomDatabase() {
             instance ?: buildDatabase(context).also { instance = it }
         }
     }
-
-
 }

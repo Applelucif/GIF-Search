@@ -6,21 +6,21 @@ import com.example.gyphyclient.model.Images
 import com.example.gyphyclient.model.Thumbnail
 
 fun DataEntity.toData() = Data(
-    Images(Gif("320", "1024", this.images, "420", this.hash), Thumbnail("320", "1024", this.smallImage, "420")),
+    Images(Gif(this.height, "1024", this.images, this.width, this.hash), Thumbnail("320", "1024", this.smallImage, "420")),
     this.title,
     this.type,
     this.username
 )
 
 fun DataSearchEntity.toData() = Data(
-    Images(Gif("320", "1024", this.images, "420", this.hash), Thumbnail("320", "1024", this.smallImage, "420")),
+    Images(Gif(this.height, "1024", this.images, this.width, this.hash), Thumbnail("320", "1024", this.smallImage, "420")),
     this.title,
     this.type,
     this.username
 )
 
 fun DataFavoriteEntity.toData() = Data(
-    Images(Gif("320", "1024", this.images, "420", this.hash), Thumbnail("320", "1024", this.smallImage, "420")),
+    Images(Gif(this.height, "1024", this.images, this.width, this.hash), Thumbnail("320", "1024", this.smallImage, "420")),
     this.title,
     this.type,
     this.username
@@ -35,31 +35,37 @@ fun List<DataFavoriteEntity>.toDataList() = this.map { it.toData() }
 
 
 fun Data.toDataEntity() = DataEntity(
-    images = this.images.original?.webp ?: "empty url",
+    height = this.images.original.height,
+    width = this.images.original.width,
+    images = this.images.original.webp ,
     smallImage = this.images.fixed_height_small_still?.smallImage ?: "empty url",
     title = this.title,
     type = this.type,
     username = this.username,
-    hash = this.images.original?.hash ?: "empty hash"
+    hash = this.images.original.hash
 )
 
 fun Data.toDataEntity(searchText:String) = DataSearchEntity(
-    images = this.images.original?.webp ?: "empty url",
+    height = this.images.original.height,
+    width = this.images.original.width,
+    images = this.images.original.webp,
     smallImage = this.images.fixed_height_small_still?.smallImage ?: "empty url",
     title = this.title,
     type = this.type,
     username = this.username,
     searchText = searchText,
-    hash = this.images.original?.hash ?: "empty hash"
+    hash = this.images.original.hash
 )
 
 fun Data.toDataFavoriteEntity() = DataFavoriteEntity(
-    images = this.images.original?.webp ?: "empty url",
+    height = this.images.original.height,
+    width = this.images.original.width,
+    images = this.images.original.webp,
     smallImage = this.images.fixed_height_small_still?.smallImage ?: "empty url",
     title = this.title,
     type = this.type,
     username = this.username,
-    hash = this.images.original?.hash ?: "empty hash"
+    hash = this.images.original.hash
 )
 
 fun List<Data>.toDataEntityList() = this.map { it.toDataEntity() }

@@ -7,6 +7,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gyphyclient.R
 import com.example.gyphyclient.databinding.ItemGiphyBinding
+import com.example.gyphyclient.internal.LIMIT
 import com.example.gyphyclient.model.Data
 
 class TrendingViewHolder(
@@ -47,7 +48,7 @@ class TrendingAdapter(val data: ArrayList<Data>) : RecyclerView.Adapter <Trendin
     fun setUpData(giphies: List<Data>, shareGif: (Data) -> Unit, saveGif: (Data) -> Unit) {
         data.clear()
         data.addAll(giphies)
-        notifyDataSetChanged()
+        notifyItemRangeChanged(data.size- LIMIT.toInt(), LIMIT.toInt())
         this.shareGif = shareGif
         this.favoriteGif = saveGif
     }

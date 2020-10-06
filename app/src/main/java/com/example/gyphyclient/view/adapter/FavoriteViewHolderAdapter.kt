@@ -7,6 +7,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gyphyclient.R
 import com.example.gyphyclient.databinding.ItemFavoriteGiphyBinding
+import com.example.gyphyclient.internal.LIMIT
 import com.example.gyphyclient.model.Data
 
 class FavoriteViewHolder(
@@ -30,7 +31,7 @@ class FavoriteAdapter(val data: ArrayList<Data>) : RecyclerView.Adapter<Favorite
     fun setUpData(giphies: List<Data>, shareGif: (Data) -> Unit) {
         data.clear()
         data.addAll(giphies)
-        notifyDataSetChanged()
+        notifyItemRangeChanged(data.size- LIMIT.toInt(), LIMIT.toInt())
         this.shareGif = shareGif
     }
 
