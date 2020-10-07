@@ -30,14 +30,14 @@ class SearchViewModel : ViewModel() {
                     repository.querySearchData(value).toFlowable()
                 }
                 .subscribe { (searchText, list) ->
-                    repository._isInProgress.postValue(true)
+                    repository.isInProgress.postValue(true)
                     if (list.isNotEmpty()) {
-                        repository._isError.postValue(false)
-                        repository._data.postValue(list.toDataList())
+                        repository.isError.postValue(false)
+                        repository.data.postValue(list.toDataList())
                     } else {
                         repository.insertSearchData(searchText)
                     }
-                    repository._isInProgress.postValue(false)
+                    repository.isInProgress.postValue(false)
                 })
         }
 

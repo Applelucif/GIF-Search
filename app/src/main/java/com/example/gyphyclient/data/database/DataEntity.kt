@@ -28,9 +28,7 @@ data class DataEntity(
 
 @Entity(tableName = "searchData")
 data class DataSearchEntity(
-    @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "id")
-    val id: Int = 0,
+
     @ColumnInfo(name = "images")
     val images: String,
     @ColumnInfo(name = "title")
@@ -41,6 +39,7 @@ data class DataSearchEntity(
     val username: String,
     @ColumnInfo(name = "searchText")
     val searchText: String,
+    @PrimaryKey
     @ColumnInfo(name = "hash")
     val hash: String,
     @ColumnInfo(name = "smallImage")

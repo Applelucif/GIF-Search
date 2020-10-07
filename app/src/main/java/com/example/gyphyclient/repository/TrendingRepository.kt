@@ -2,7 +2,6 @@ package com.example.gyphyclient.repository
 
 import KEY
 import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.gyphyclient.GiphyApplication
 import com.example.gyphyclient.data.database.*
@@ -10,7 +9,7 @@ import com.example.gyphyclient.data.network.GiphyApi
 import com.example.gyphyclient.di.DaggerAppComponent
 import com.example.gyphyclient.internal.LIMIT
 import com.example.gyphyclient.internal.RATING
-import com.example.gyphyclient.internal.SEARCHLIMIT
+import com.example.gyphyclient.internal.SEARCH_LIMIT
 import com.example.gyphyclient.model.Data
 import com.example.gyphyclient.model.Result
 import io.reactivex.Single
@@ -27,16 +26,16 @@ class TrendingRepository {
     @Inject
     lateinit var giphyApiService: GiphyApi
 
-    val _data by lazy { MutableLiveData<List<Data>>() }
-    val data: LiveData<List<Data>>
+    private val _data by lazy { MutableLiveData<List<Data>>() }
+    val data: MutableLiveData<List<Data>>
         get() = _data
 
-    val _isInProgress by lazy { MutableLiveData<Boolean>() }
-    val isInProgress: LiveData<Boolean>
+    private val _isInProgress by lazy { MutableLiveData<Boolean>() }
+    val isInProgress: MutableLiveData<Boolean>
         get() = _isInProgress
 
-    val _isError by lazy { MutableLiveData<Boolean>() }
-    val isError: LiveData<Boolean>
+    private val _isError by lazy { MutableLiveData<Boolean>() }
+    val isError: MutableLiveData<Boolean>
         get() = _isError
 
     init {
@@ -50,7 +49,7 @@ class TrendingRepository {
     }
 
     fun insertSearchData(searchTerm: String): Disposable {
-        return giphyApiService.getSeach(KEY, SEARCHLIMIT, RATING, searchTerm)
+        return giphyApiService.getSeach(KEY, SEARCH_LIMIT, RATING, searchTerm)
             .subscribeOn(Schedulers.io())
             .subscribeWith(subscribeToSearchDatabase(searchTerm))
     }

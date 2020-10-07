@@ -21,7 +21,7 @@ fun setImage(
     height: String,
     width: String
 ) {
-    var imageFileName = hash + ".webp"
+    var imageFileName = "$hash.webp"
     var storageDir =
         File(imageView.context.cacheDir.absolutePath + "/image_manager_disk_cache")
     val imageFile: File = File(storageDir, imageFileName)

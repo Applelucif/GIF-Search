@@ -1,6 +1,5 @@
 package com.example.gyphyclient.view.ui
 
-import android.graphics.Point
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.gyphyclient.R

@@ -1,8 +1,6 @@
 package com.example.gyphyclient.view.ui
 
-import android.Manifest
 import android.annotation.SuppressLint
-import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,25 +8,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
 import androidx.annotation.RequiresApi
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DefaultItemAnimator
 import com.example.gyphyclient.R
 import com.example.gyphyclient.di.DaggerAppComponent
-import com.example.gyphyclient.model.Data
 import com.example.gyphyclient.view.adapter.TrendingAdapter
 import com.example.gyphyclient.viewmodel.SearchViewModel
-import io.reactivex.Observable
-import io.reactivex.ObservableSource
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.functions.Consumer
-import io.reactivex.schedulers.Schedulers
-import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.fragment_search.*
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 
@@ -54,6 +42,7 @@ class SearchFragment() : Fragment() {
             }
         })
 
+        fetch_progress_search.visibility = View.GONE
         setUpRecyclerView()
 
         observeInProgress()
@@ -116,8 +105,6 @@ private fun disableViewsOnError() {
     trendingAdapter.setUpData(emptyList(), {}, {})
     fetch_progress_search.visibility = View.GONE
 }
-
-private var gifForSave: Data? = null
 
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
 private fun observeGiphyList() {
