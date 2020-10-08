@@ -109,8 +109,6 @@ class TrendingRepository {
 
     fun fetchDataFromDatabase(): Disposable = getTrendingQuery()
 
-    fun fetchSearchDataFromDataBase(searchTerm: String): Disposable = getSearchingQuery(searchTerm)
-
     fun fetchFavoriteDataFromDatabase(): Disposable = getFavoriteQuery()
 
     private fun getFavoriteQuery(): Disposable {
