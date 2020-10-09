@@ -29,7 +29,7 @@
                 android:layout_height="wrap_content"
                 fresco:viewAspectRatio="1"
                 app:imageUrl="@{data.images.original.webp}"
-                app:urlSmallGif="@{data.images.fixed_height_small_still.smallImage}"
+                app:urlSmallGif="@{data.images.fixed_height_small_still.url}"
                 app:hash="@{data.images.original.hash}"
                 app:height="@{data.images.original.height}"
                 app:width="@{data.images.original.width}"

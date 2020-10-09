@@ -12,9 +12,11 @@ import com.example.gyphyclient.internal.RATING
 import com.example.gyphyclient.internal.SEARCH_LIMIT
 import com.example.gyphyclient.model.Data
 import com.example.gyphyclient.model.Result
+import io.reactivex.Flowable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
+import io.reactivex.processors.BehaviorProcessor
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subscribers.DisposableSubscriber
 import javax.inject.Inject
@@ -48,7 +50,7 @@ class TrendingRepository {
             .subscribeWith(subscribeToDatabase())
     }
 
-    fun insertSearchData(searchTerm: String): Disposable {
+    fun searchGif(searchTerm: String): Disposable {
         return giphyApiService.getSeach(KEY, SEARCH_LIMIT, RATING, searchTerm)
             .subscribeOn(Schedulers.io())
             .subscribeWith(subscribeToSearchDatabase(searchTerm))
@@ -109,11 +111,13 @@ class TrendingRepository {
 
     fun fetchDataFromDatabase(): Disposable = getTrendingQuery()
 
+        //TODO disposable переделать во single
     fun fetchFavoriteDataFromDatabase(): Disposable = getFavoriteQuery()
 
     private fun getFavoriteQuery(): Disposable {
         return GiphyApplication.database.dataDao()
             .queryFavoriteData()
+                //TODO все что ниже перенести во вьюмодел
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
@@ -159,8 +163,17 @@ class TrendingRepository {
             )
     }
 
-    private fun getSearchingQuery(searchTerm: String): Disposable {
+    private val searchedGifProcessor = BehaviorProcessor.create<List<Data>>()
 
+    private fun setList(list: List<Data>) {
+        searchedGifProcessor.onNext(list)
+    }
+
+    fun getGifFlow(): Flowable<List<Data>> {
+        return searchedGifProcessor
+    }
+
+    private fun getSearchingQuery(searchTerm: String): Disposable {
         return querySearchData(searchTerm)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -169,9 +182,9 @@ class TrendingRepository {
                     _isInProgress.postValue(true)
                     if (dataEntityList != null && dataEntityList.second.isNotEmpty()) {
                         _isError.postValue(false)
-                        _data.postValue(dataEntityList.second.toDataList())
+                        setList(dataEntityList.second.toDataList())
                     } else {
-                        insertSearchData(searchTerm)
+                        searchGif(searchTerm)
                     }
                     _isInProgress.postValue(false)
                 },

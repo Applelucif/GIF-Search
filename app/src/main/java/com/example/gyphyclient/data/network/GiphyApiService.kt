@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit
 
 object GiphyApiService {
     private fun createOkHttpClient(): OkHttpClient {
-        val logger = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
+        val logger = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.HEADERS)
         return OkHttpClient.Builder()
             .addInterceptor(logger)
             .connectTimeout(15, TimeUnit.SECONDS)

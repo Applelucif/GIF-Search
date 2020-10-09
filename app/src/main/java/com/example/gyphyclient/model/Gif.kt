@@ -11,6 +11,6 @@ data class Gif(
 data class Thumbnail(
     val height: String,
     val size: String,
-    val smallImage: String,
+    val url: String,
     val width: String
 )

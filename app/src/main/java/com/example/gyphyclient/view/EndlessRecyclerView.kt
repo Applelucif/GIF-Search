@@ -12,13 +12,10 @@ class EndlessRecyclerView @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) :
     RecyclerView(context, attrs, defStyleAttr) {
+    var isLoading = false
 
     init {
         addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                super.onScrollStateChanged(recyclerView, newState)
-            }
-
             fun getLastVisibleItem(lastVisibleItemPositions: IntArray): Int {
                 var maxSize = 0
                 for (i in lastVisibleItemPositions.indices) {
@@ -39,9 +36,10 @@ class EndlessRecyclerView @JvmOverloads constructor(
                     var lastVisibleItemPositions =
                        (recyclerView.layoutManager as StaggeredGridLayoutManager).findLastVisibleItemPositions(null)
                     var lastVisibleItemPosition = getLastVisibleItem(lastVisibleItemPositions)
-                    if (!isLoading && lastVisibleItemPosition == totalItemCount - 3) {
+                    if (isLoading == false && lastVisibleItemPosition == totalItemCount - 6) {
                         Toast.makeText(context, "The end, load next data", Toast.LENGTH_SHORT)
                             .show()
+                        isLoading = true
                         somethingActionWhenNearEnd() //когда наступит конец, здесь выполнится какое-то действие
                     }
                 }
@@ -50,7 +48,6 @@ class EndlessRecyclerView @JvmOverloads constructor(
     }
 
     private var totalItemCount: Int = 0
-    var isLoading = false
 
     private var somethingActionWhenNearEnd: () -> Unit = {} //какое-то действие
 

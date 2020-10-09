@@ -5,30 +5,19 @@ import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.database.Cursor
-import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
-import android.widget.Button
-import android.widget.ImageView
 import androidx.annotation.RequiresApi
-import androidx.core.graphics.toColor
 import androidx.lifecycle.ViewModel
-import com.example.gyphyclient.R
-import com.example.gyphyclient.di.AppComponent
 import com.example.gyphyclient.di.DaggerAppComponent
 import com.example.gyphyclient.model.Data
 import com.example.gyphyclient.repository.TrendingRepository
 import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import kotlinx.android.synthetic.main.item_giphy.view.*
-import java.io.File
-import java.io.FileOutputStream
-import java.io.OutputStream
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
-
 
 class TrendingViewModel : ViewModel() {
 
@@ -38,13 +27,12 @@ class TrendingViewModel : ViewModel() {
     private val compositeDisposable by lazy { CompositeDisposable() }
     private val downloadsDisposable by lazy { CompositeDisposable() }
 
-
     init {
         DaggerAppComponent.create().inject(this)
         compositeDisposable.add(repository.fetchDataFromDatabase())
     }
 
-    fun getData (offset : Int) {
+    fun getData(offset: Int) {
         repository.insertData(offset)
     }
 
@@ -56,25 +44,25 @@ class TrendingViewModel : ViewModel() {
     fun gifShare(data: Data, context: Context) {
         val sendIntent: Intent = Intent().apply {
             action = Intent.ACTION_SEND
-            putExtra(Intent.EXTRA_TEXT, data.images.original?.webp)
+            putExtra(Intent.EXTRA_TEXT, data.images.original.webp)
             type = "text/plain"
         }
-
+            //TODO вынести строку в строковые ресурсы
         val shareIntent = Intent.createChooser(sendIntent, "Поделиться гифкой")
         context.startActivity(shareIntent)
     }
 
-    fun addToFavorite (gif: Data) {
-        Thread{
+    fun addToFavorite(gif: Data) {
+        Thread {
             repository.insertFavoriteData(gif)
         }.start()
-
     }
 
+    //TODO перенести функционал при добавления в избранное
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     fun gifSave(data: Data, context: Context) {
         val downloadManager = context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
-        val uriGif: Uri = Uri.parse(data.images.original?.webp.toString())
+        val uriGif: Uri = Uri.parse(data.images.original.webp.toString())
         val aExtDcimDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM)
         val request = DownloadManager
             .Request(uriGif)

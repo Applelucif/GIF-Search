@@ -12,6 +12,7 @@ import com.facebook.imagepipeline.core.ImagePipelineFactory
 import com.facebook.imagepipeline.request.ImageRequest
 import java.io.File
 
+
 @BindingAdapter(*["bind:imageUrl", "bind:urlSmallGif", "bind:hash", "bind:height", "bind:width"])
 fun setImage(
     imageView: SimpleDraweeView,
@@ -26,11 +27,10 @@ fun setImage(
         File(imageView.context.cacheDir.absolutePath + "/image_manager_disk_cache")
     val imageFile: File = File(storageDir, imageFileName)
     var aspectRatio: Float = (width.toFloat() / height.toFloat())
-    var controller: DraweeController? = null
 
     if (imageFile.exists()) {
         val uri: Uri = Uri.parse("file://" + imageFile.path)
-        controller = Fresco.newDraweeControllerBuilder()
+        val controller = Fresco.newDraweeControllerBuilder()
             .setUri(uri)
             .setAutoPlayAnimations(true)
             .build()
@@ -39,9 +39,12 @@ fun setImage(
             setController(controller)
         }
     } else {
-        val uri: Uri = Uri.parse(url)
-        controller = Fresco.newDraweeControllerBuilder()
-            .setUri(uri)
+
+        var uri: Uri = Uri.parse("https://media1.giphy.com/media/1gWKFK22fsi1nsK5O2/giphy-preview.gif?cid=7d042737sfn2g3g2nwo76ruetzopaj4bpjwr43s6zd6g0p87&rid=giphy-preview.gif")
+        val controller = Fresco.newDraweeControllerBuilder()
+            .setLowResImageRequest(ImageRequest.fromUri(uri))
+            .setImageRequest(ImageRequest.fromUri(url))
+            .setOldController(imageView.controller)
             .setAutoPlayAnimations(true)
             .build()
         imageView.apply {

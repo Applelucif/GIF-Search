@@ -20,11 +20,15 @@ import com.example.gyphyclient.viewmodel.TrendingViewModel
 import kotlinx.android.synthetic.main.fragment_top.*
 import javax.inject.Inject
 
-
 class TrendingFragment : Fragment() {
     @Inject
     lateinit var trendingAdapter: TrendingAdapter
     private val viewModel: TrendingViewModel by viewModels()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        DaggerAppComponent.create().inject(this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,33 +38,31 @@ class TrendingFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_top, container, false)
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        DaggerAppComponent.create().inject(this)
-    }
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
         setUpRecyclerView()
-
         observeLiveData()
-
     }
 
     private fun observeLiveData() {
         observeInProgress()
         observeIsError()
-        observeGiphyList()
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            observeGiphyList()
+        }
     }
 
     private var gifForSave: Data? = null
+
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private fun observeGiphyList() {
-        viewModel.repository.data.observe(this, Observer { giphies ->
-            giphies.let {
-                if (it != null && it.isNotEmpty()) {
+        viewModel.repository.data.observe(viewLifecycleOwner, { giphies ->
+            giphies?.let {
+                if (it.isNotEmpty()) {
                     fetch_progress.visibility = View.VISIBLE
                     recycler_view.visibility = View.VISIBLE
+                    recycler_view.isLoading = false
                     trendingAdapter.setUpData(it,
                         { gif ->
                             viewModel.gifShare(gif, requireContext())
@@ -78,35 +80,8 @@ class TrendingFragment : Fragment() {
         })
     }
 
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        when (requestCode) {
-            REQUEST_PERMISSION_WRITE_TO_EXT_STORAGE_CODE -> {
-                if (grantResults.isNotEmpty()
-                    && grantResults[0] == PackageManager.PERMISSION_GRANTED && gifForSave != null
-                ) {
-                    viewModel.gifSave(gifForSave!!, requireContext())
-
-                } else {
-                    Toast
-                        .makeText(
-                            requireContext(),
-                            "Требуемые разрешения не предоставлены",
-                            Toast.LENGTH_SHORT
-                        )
-                        .show()
-                }
-            }
-        }
-    }
-
     private fun observeIsError() {
-        viewModel.repository.isError.observe(this, Observer { isError ->
+        viewModel.repository.isError.observe(viewLifecycleOwner, { isError ->
             isError.let {
                 if (it) {
                     disableViewsOnError()
@@ -127,7 +102,7 @@ class TrendingFragment : Fragment() {
     }
 
     private fun observeInProgress() {
-        viewModel.repository.isInProgress.observe(this, Observer { isLoading ->
+        viewModel.repository.isInProgress.observe(viewLifecycleOwner, { isLoading ->
             isLoading.let {
                 if (it) {
                     empty_text.visibility = View.GONE
@@ -141,10 +116,8 @@ class TrendingFragment : Fragment() {
     }
 
     private fun setUpRecyclerView() {
-
         recycler_view.apply {
-            layoutManager = StaggeredGridLayoutManager(2, 1)
-            setHasFixedSize(true)
+            layoutManager = StaggeredGridLayoutManager(SPAN_COUNT, ORIENTATION)
             adapter = trendingAdapter
             setActionInTheEnd {
                 viewModel.getData(adapter?.itemCount ?: 0)
@@ -153,6 +126,7 @@ class TrendingFragment : Fragment() {
     }
 
     companion object {
-        internal const val REQUEST_PERMISSION_WRITE_TO_EXT_STORAGE_CODE = 10
+        private const val SPAN_COUNT = 2
+        private const val ORIENTATION = 1
     }
 }
