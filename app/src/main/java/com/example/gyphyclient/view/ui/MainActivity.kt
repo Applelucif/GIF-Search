@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
         var bottomNavigationView: BottomNavigationView = findViewById(R.id.bottom_navigation)
 
         fm.beginTransaction().add(R.id.fragment_container, fragmentFavorite, "3")
-            .hide(fragmentFavorite).commit();
+            .hide(fragmentFavorite).commit()
         fm.beginTransaction().add(R.id.fragment_container, fragmentSearch, "2").hide(fragmentSearch)
             .commit();
         fm.beginTransaction().add(R.id.fragment_container, fragmentTranding, "1").commit();
@@ -57,6 +57,7 @@ class MainActivity : AppCompatActivity() {
                         .show(fragmentFavorite)
                         .commit()
                     active = fragmentFavorite
+                    fragmentFavorite.backToFavoriteFragment()
                 }
             }
             true

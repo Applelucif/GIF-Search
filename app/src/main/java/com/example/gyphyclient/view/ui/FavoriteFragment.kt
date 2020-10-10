@@ -25,12 +25,9 @@ class FavoriteFragment: Fragment() {
     @Inject
     lateinit var favoriteAdapter: FavoriteAdapter
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    fun backToFavoriteFragment() {
         setUpRecyclerView()
-
         observeLiveData()
-
     }
 
     private fun observeLiveData() {
