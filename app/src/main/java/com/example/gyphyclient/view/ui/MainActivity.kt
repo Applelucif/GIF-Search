@@ -7,40 +7,41 @@ import com.example.gyphyclient.R
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-
 class MainActivity : AppCompatActivity() {
+
+    private val fragmentTrending = TrendingFragment()
+    private val fragmentSearch = SearchFragment()
+    private val fragmentFavorite = FavoriteFragment()
+    private var active: Fragment = fragmentTrending
+    private val fm = supportFragmentManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
-        val fragmentTranding = TrendingFragment()
-        val fragmentSearch = SearchFragment()
-        val fragmentFavorite = FavoriteFragment()
-        var active: Fragment = fragmentTranding
 
         super.onCreate(savedInstanceState)
         Fresco.initialize(this)
         setContentView(R.layout.activity_main)
 
-        val fm = supportFragmentManager
-    
-        var bottomNavigationView: BottomNavigationView = findViewById(R.id.bottom_navigation)
-
         fm.beginTransaction().add(R.id.fragment_container, fragmentFavorite, "3")
             .hide(fragmentFavorite).commit()
         fm.beginTransaction().add(R.id.fragment_container, fragmentSearch, "2").hide(fragmentSearch)
             .commit();
-        fm.beginTransaction().add(R.id.fragment_container, fragmentTranding, "1").commit();
+        fm.beginTransaction().add(R.id.fragment_container, fragmentTrending, "1").commit();
 
-        //TODO вынести в отдельный метод
+        setBottomNavigationView()
+    }
+
+    private fun setBottomNavigationView() {
+        var bottomNavigationView: BottomNavigationView = findViewById(R.id.bottom_navigation)
         bottomNavigationView.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.top -> {
                     fm
                         .beginTransaction()
                         .hide(active)
-                        .show(fragmentTranding)
+                        .show(fragmentTrending)
                         .commit()
-                    active = fragmentTranding
+                    active = fragmentTrending
                 }
                 R.id.search -> {
                     fm

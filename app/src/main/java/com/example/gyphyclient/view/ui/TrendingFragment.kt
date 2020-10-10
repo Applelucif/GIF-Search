@@ -1,20 +1,14 @@
 package com.example.gyphyclient.view.ui
 
-import android.content.pm.PackageManager
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.gyphyclient.R
 import com.example.gyphyclient.di.DaggerAppComponent
-import com.example.gyphyclient.model.Data
 import com.example.gyphyclient.view.adapter.TrendingAdapter
 import com.example.gyphyclient.viewmodel.TrendingViewModel
 import kotlinx.android.synthetic.main.fragment_top.*
@@ -42,10 +36,6 @@ class TrendingFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         setUpRecyclerView()
-        observeLiveData()
-    }
-
-    private fun observeLiveData() {
         observeInProgress()
         observeIsError()
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
@@ -53,35 +43,32 @@ class TrendingFragment : Fragment() {
         }
     }
 
-    private var gifForSave: Data? = null
+    private fun setUpRecyclerView() {
+        recycler_view.apply {
+            layoutManager = StaggeredGridLayoutManager(SPAN_COUNT, ORIENTATION)
+            adapter = trendingAdapter
+            setActionInTheEnd {
+                viewModel.getData(adapter?.itemCount ?: 0)
+            }
+        }
+    }
 
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    private fun observeGiphyList() {
-        viewModel.repository.data.observe(viewLifecycleOwner, { giphies ->
-            giphies?.let {
-                if (it.isNotEmpty()) {
-                    fetch_progress.visibility = View.VISIBLE
-                    recycler_view.visibility = View.VISIBLE
-                    recycler_view.isLoading = false
-                    trendingAdapter.setUpData(it,
-                        { gif ->
-                            viewModel.gifShare(gif, requireContext())
-                        },
-                        { gif ->
-                            viewModel.addToFavorite(gif)
-                        }
-                    )
+    private fun observeInProgress() {
+        viewModel._isInProgress.observe(viewLifecycleOwner, { isLoading ->
+            isLoading.let {
+                if (it) {
                     empty_text.visibility = View.GONE
-                    fetch_progress.visibility = View.GONE
+                    recycler_view.visibility = View.GONE
+                    fetch_progress.visibility = View.VISIBLE
                 } else {
-                    disableViewsOnError()
+                    fetch_progress.visibility = View.GONE
                 }
             }
         })
     }
 
     private fun observeIsError() {
-        viewModel.repository.isError.observe(viewLifecycleOwner, { isError ->
+        viewModel._isError.observe(viewLifecycleOwner, { isError ->
             isError.let {
                 if (it) {
                     disableViewsOnError()
@@ -101,28 +88,29 @@ class TrendingFragment : Fragment() {
         fetch_progress.visibility = View.GONE
     }
 
-    private fun observeInProgress() {
-        viewModel.repository.isInProgress.observe(viewLifecycleOwner, { isLoading ->
-            isLoading.let {
-                if (it) {
-                    empty_text.visibility = View.GONE
-                    recycler_view.visibility = View.GONE
+    private fun observeGiphyList() {
+        viewModel.data.observe(viewLifecycleOwner, { giphies ->
+            giphies?.let {
+                if (it.isNotEmpty()) {
                     fetch_progress.visibility = View.VISIBLE
-                } else {
+                    recycler_view.visibility = View.VISIBLE
+                    recycler_view.isLoading = false
+                    trendingAdapter.setUpData(it,
+                        { gif ->
+                            viewModel.repository.gifShare(gif, requireContext())
+                        },
+                        { gif ->
+                            viewModel.addToFavorite(gif)
+                            viewModel.gifSave(gif, requireContext())
+                        }
+                    )
+                    empty_text.visibility = View.GONE
                     fetch_progress.visibility = View.GONE
+                } else {
+                    disableViewsOnError()
                 }
             }
         })
-    }
-
-    private fun setUpRecyclerView() {
-        recycler_view.apply {
-            layoutManager = StaggeredGridLayoutManager(SPAN_COUNT, ORIENTATION)
-            adapter = trendingAdapter
-            setActionInTheEnd {
-                viewModel.getData(adapter?.itemCount ?: 0)
-            }
-        }
     }
 
     companion object {

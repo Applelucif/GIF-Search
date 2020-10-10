@@ -37,18 +37,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"/>
 
-            <!--<ImageView
-                android:id="@+id/trending_image"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:imageUrl="@{data.images.original.webp}"
-                app:urlSmallGif="@{data.images.fixed_height_small_still.smallImage}"
-                app:hash="@{data.images.original.hash}"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:src="@drawable/ic_launcher_background" />-->
-
             <ImageView
                 android:id="@+id/share_button"
                 android:layout_width="35dp"

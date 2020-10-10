@@ -5,6 +5,7 @@ import android.util.AttributeSet
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.example.gyphyclient.R
 
 class EndlessRecyclerView @JvmOverloads constructor(
     context: Context,
@@ -34,13 +35,21 @@ class EndlessRecyclerView @JvmOverloads constructor(
                     totalItemCount = recyclerView.layoutManager!!.getItemCount()
 
                     var lastVisibleItemPositions =
-                       (recyclerView.layoutManager as StaggeredGridLayoutManager).findLastVisibleItemPositions(null)
+                        (recyclerView.layoutManager as StaggeredGridLayoutManager).findLastVisibleItemPositions(
+                            null
+                        )
                     var lastVisibleItemPosition = getLastVisibleItem(lastVisibleItemPositions)
-                    if (isLoading == false && lastVisibleItemPosition == totalItemCount - 6) {
-                        Toast.makeText(context, "The end, load next data", Toast.LENGTH_SHORT)
+                    if (!isLoading && lastVisibleItemPosition == totalItemCount - lastMinusThisPosition) {
+                        Toast.makeText(context, R.string.end_data, Toast.LENGTH_SHORT)
                             .show()
                         isLoading = true
                         somethingActionWhenNearEnd() //когда наступит конец, здесь выполнится какое-то действие
+                    }
+                    if (lastVisibleItemPosition == totalItemCount) {
+                        Toast.makeText(context, R.string.end_data, Toast.LENGTH_SHORT)
+                            .show()
+                        isLoading = true
+                        somethingActionWhenNearEnd()
                     }
                 }
             }
@@ -54,5 +63,9 @@ class EndlessRecyclerView @JvmOverloads constructor(
     //метод который инициализирует чем-то какое-то действие
     fun setActionInTheEnd(action: () -> Unit) {
         somethingActionWhenNearEnd = action
+    }
+
+    companion object {
+        private const val lastMinusThisPosition = 6
     }
 }

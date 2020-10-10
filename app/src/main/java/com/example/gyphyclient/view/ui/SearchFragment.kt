@@ -16,7 +16,6 @@ import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_search.*
 import javax.inject.Inject
 
-
 class SearchFragment() : Fragment() {
 
     private val viewModel: SearchViewModel by viewModels()
@@ -39,12 +38,9 @@ class SearchFragment() : Fragment() {
             }
         })
 
-        //TODO вынести в xml
-        fetch_progress_search.visibility = View.GONE
         setUpRecyclerView()
         observeInProgress()
         observeIsError()
-        //TODO разобраться почему требуется выше 5 android
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
             observeGiphyList()
         }
@@ -87,7 +83,7 @@ class SearchFragment() : Fragment() {
     }
 
     private fun observeInProgress() {
-        viewModel.repository.isInProgress.observe(viewLifecycleOwner, { isLoading ->
+        viewModel._isInProgress.observe(viewLifecycleOwner, { isLoading ->
             isLoading.let {
                 if (it) {
                     empty_text_search.visibility = View.GONE
@@ -101,7 +97,7 @@ class SearchFragment() : Fragment() {
     }
 
     private fun observeIsError() {
-        viewModel.repository.isError.observe(viewLifecycleOwner, { isError ->
+        viewModel._isError.observe(viewLifecycleOwner, { isError ->
             isError.let {
                 if (it) {
                     disableViewsOnError()
@@ -122,14 +118,14 @@ class SearchFragment() : Fragment() {
     }
 
     private fun observeGiphyList() {
-        viewModel.repository.data.observe(viewLifecycleOwner, { giphies ->
+        viewModel.data.observe(viewLifecycleOwner, { giphies ->
             giphies?.let {
                 if (it.isNotEmpty()) {
                     fetch_progress_search.visibility = View.VISIBLE
                     recycler_view_search.visibility = View.VISIBLE
                     trendingAdapter.setUpData(it,
                         { gif ->
-                            viewModel.gifShare(gif, requireContext())
+                            viewModel.repository.gifShare(gif, requireContext())
                         },
                         { gif ->
                             viewModel.addToFavorite(gif)

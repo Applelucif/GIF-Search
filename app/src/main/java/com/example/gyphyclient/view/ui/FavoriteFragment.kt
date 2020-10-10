@@ -1,11 +1,9 @@
 package com.example.gyphyclient.view.ui
 
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -18,23 +16,12 @@ import com.example.gyphyclient.viewmodel.FavoriteViewModel
 import kotlinx.android.synthetic.main.favorite_fragment.*
 import javax.inject.Inject
 
-class FavoriteFragment: Fragment() {
+class FavoriteFragment : Fragment() {
 
     private val viewModel: FavoriteViewModel by viewModels()
 
     @Inject
     lateinit var favoriteAdapter: FavoriteAdapter
-
-    fun backToFavoriteFragment() {
-        setUpRecyclerView()
-        observeLiveData()
-    }
-
-    private fun observeLiveData() {
-        observeInProgress()
-        observeIsError()
-        observeGiphyList()
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,12 +33,21 @@ class FavoriteFragment: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.favorite_fragment,container,false)
+        return inflater.inflate(R.layout.favorite_fragment, container, false)
+    }
+
+    fun backToFavoriteFragment() {
+        setUpRecyclerView()
+        observeInProgress()
+        observeIsError()
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            observeGiphyList()
+        }
     }
 
     private fun setUpRecyclerView() {
         recycler_view.apply {
-            layoutManager = StaggeredGridLayoutManager(2, 1)
+            layoutManager = StaggeredGridLayoutManager(SPAN_COUNT, ORIENTATION)
             setHasFixedSize(true)
             itemAnimator = DefaultItemAnimator()
             adapter = favoriteAdapter
@@ -59,7 +55,7 @@ class FavoriteFragment: Fragment() {
     }
 
     private fun observeInProgress() {
-        viewModel.repository.isInProgress.observe(this, Observer { isLoading ->
+        viewModel._isInProgress.observe(this, Observer { isLoading ->
             isLoading.let {
                 if (it) {
                     empty_text.visibility = View.GONE
@@ -73,7 +69,7 @@ class FavoriteFragment: Fragment() {
     }
 
     private fun observeIsError() {
-        viewModel.repository.isError.observe(this, Observer { isError ->
+        viewModel._isError.observe(this, Observer { isError ->
             isError.let {
                 if (it) {
                     disableViewsOnError()
@@ -93,16 +89,16 @@ class FavoriteFragment: Fragment() {
         fetch_progress.visibility = View.GONE
     }
 
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private fun observeGiphyList() {
-        viewModel.repository.data.observe(this, Observer { giphies ->
+        viewModel.data.observe(this, Observer { giphies ->
             giphies.let {
                 if (it != null && it.isNotEmpty()) {
                     fetch_progress.visibility = View.VISIBLE
                     recycler_view.visibility = View.VISIBLE
-                    favoriteAdapter.setUpData(it
+                    favoriteAdapter.setUpData(
+                        it
                     ) { gif ->
-                        viewModel.gifShare(gif, requireContext())
+                        viewModel.repository.gifShare(gif, requireContext())
                     }
                     empty_text.visibility = View.GONE
                     fetch_progress.visibility = View.GONE
@@ -111,5 +107,10 @@ class FavoriteFragment: Fragment() {
                 }
             }
         })
+    }
+
+    companion object {
+        private const val SPAN_COUNT = 2
+        private const val ORIENTATION = 1
     }
 }

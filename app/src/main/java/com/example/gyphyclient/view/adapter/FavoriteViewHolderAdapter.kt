@@ -7,9 +7,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gyphyclient.R
 import com.example.gyphyclient.databinding.ItemFavoriteGiphyBinding
-import com.example.gyphyclient.internal.LIMIT
 import com.example.gyphyclient.model.Data
-import okhttp3.internal.notifyAll
 
 class FavoriteViewHolder(
     private val itemGiphyBinding: ItemFavoriteGiphyBinding

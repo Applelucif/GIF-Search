@@ -16,7 +16,7 @@ class TrendingViewHolder(
     private val shareBtn: ImageView = itemGiphyBinding.root.findViewById(R.id.share_button)
     private val saveBtn: ImageView = itemGiphyBinding.root.findViewById(R.id.favorite_button)
 
-    fun bind(gif: Data, shareGif: (Data) -> Unit, saveGif:(Data) -> Unit) {
+    fun bind(gif: Data, shareGif: (Data) -> Unit, saveGif: (Data) -> Unit) {
         itemGiphyBinding.data = gif
         shareBtn.setOnClickListener {
             shareGif(gif)
@@ -28,11 +28,10 @@ class TrendingViewHolder(
     }
 }
 
+class TrendingAdapter(val data: ArrayList<Data>) : RecyclerView.Adapter<TrendingViewHolder>() {
 
-class TrendingAdapter(val data: ArrayList<Data>) : RecyclerView.Adapter <TrendingViewHolder> () {
-
-    private var shareGif: (Data)->Unit = {}
-    private var favoriteGif: (Data)->Unit = {}
+    private var shareGif: (Data) -> Unit = {}
+    private var favoriteGif: (Data) -> Unit = {}
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrendingViewHolder {
         val itemGiphyBinding: ItemGiphyBinding = DataBindingUtil.inflate(
@@ -48,7 +47,7 @@ class TrendingAdapter(val data: ArrayList<Data>) : RecyclerView.Adapter <Trendin
     fun setUpData(giphies: List<Data>, shareGif: (Data) -> Unit, saveGif: (Data) -> Unit) {
         data.clear()
         data.addAll(giphies)
-        notifyItemRangeChanged(data.size- LIMIT.toInt(), LIMIT.toInt())
+        notifyItemRangeChanged(data.size - LIMIT.toInt(), LIMIT.toInt())
         this.shareGif = shareGif
         this.favoriteGif = saveGif
     }
@@ -61,6 +60,4 @@ class TrendingAdapter(val data: ArrayList<Data>) : RecyclerView.Adapter <Trendin
     override fun getItemCount(): Int {
         return data.size
     }
-
-
 }
