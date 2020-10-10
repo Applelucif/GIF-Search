@@ -62,7 +62,7 @@ class SearchViewModel : ViewModel() {
     fun gifShare(data: Data, context: Context) {
         val sendIntent: Intent = Intent().apply {
             action = Intent.ACTION_SEND
-            putExtra(Intent.EXTRA_TEXT, data.images.original.webp)
+            putExtra(Intent.EXTRA_TEXT, data.images.original?.webp)
             type = "text/plain"
         }
         //TODO вынести нах

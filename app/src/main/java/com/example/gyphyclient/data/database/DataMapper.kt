@@ -35,37 +35,37 @@ fun List<DataFavoriteEntity>.toDataList() = this.map { it.toData() }
 
 
 fun Data.toDataEntity() = DataEntity(
-    height = this.images.original.height,
-    width = this.images.original.width,
-    images = this.images.original.webp ,
-    smallImage = this.images.fixed_height_small_still?.url ?: "empty url",
+    height = this.images.original?.height ?: "empty height",
+    width = this.images.original?.width ?: "empty width",
+    images = this.images.original?.webp ?: "empty url webp",
+    smallImage = this.images.fixed_height_small_still?.url ?: "empty url smallImage",
     title = this.title,
     type = this.type,
     username = this.username,
-    hash = this.images.original.hash
+    hash = this.images.original?.hash ?: "empty hash"
 )
 
 fun Data.toDataEntity(searchText:String) = DataSearchEntity(
-    height = this.images.original.height,
-    width = this.images.original.width,
-    images = this.images.original.webp,
-    smallImage = this.images.fixed_height_small_still?.url ?: "empty url",
+    height = this.images.original?.height ?: "empty height",
+    width = this.images.original?.width ?: "empty width",
+    images = this.images.original?.webp ?: "empty url webp",
+    smallImage = this.images.fixed_height_small_still?.url ?: "empty url smallImage",
     title = this.title,
     type = this.type,
     username = this.username,
     searchText = searchText,
-    hash = this.images.original.hash
+    hash = this.images.original?.hash ?: "empty hash"
 )
 
 fun Data.toDataFavoriteEntity() = DataFavoriteEntity(
-    height = this.images.original.height,
-    width = this.images.original.width,
-    images = this.images.original.webp,
-    smallImage = this.images.fixed_height_small_still?.url ?: "empty url",
+    height = this.images.original?.height ?: "empty height",
+    width = this.images.original?.width ?: "empty width",
+    images = this.images.original?.webp ?: "empty url webp",
+    smallImage = this.images.fixed_height_small_still?.url ?: "empty url smallImage",
     title = this.title,
     type = this.type,
     username = this.username,
-    hash = this.images.original.hash
+    hash = this.images.original?.hash ?: "empty hash"
 )
 
 fun List<Data>.toDataEntityList() = this.map { it.toDataEntity() }
