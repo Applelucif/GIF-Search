@@ -83,7 +83,7 @@ class SearchFragment() : Fragment() {
     }
 
     private fun observeInProgress() {
-        viewModel._isInProgress.observe(viewLifecycleOwner, { isLoading ->
+        viewModel.repository._isInProgress.observe(viewLifecycleOwner, { isLoading ->
             isLoading.let {
                 if (it) {
                     empty_text_search.visibility = View.GONE
@@ -97,7 +97,7 @@ class SearchFragment() : Fragment() {
     }
 
     private fun observeIsError() {
-        viewModel._isError.observe(viewLifecycleOwner, { isError ->
+        viewModel.repository._isError.observe(viewLifecycleOwner, { isError ->
             isError.let {
                 if (it) {
                     disableViewsOnError()
@@ -118,7 +118,7 @@ class SearchFragment() : Fragment() {
     }
 
     private fun observeGiphyList() {
-        viewModel.data.observe(viewLifecycleOwner, { giphies ->
+        viewModel.repository.data.observe(viewLifecycleOwner, { giphies ->
             giphies?.let {
                 if (it.isNotEmpty()) {
                     fetch_progress_search.visibility = View.VISIBLE

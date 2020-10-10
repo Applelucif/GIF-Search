@@ -54,7 +54,7 @@ class TrendingFragment : Fragment() {
     }
 
     private fun observeInProgress() {
-        viewModel._isInProgress.observe(viewLifecycleOwner, { isLoading ->
+        viewModel.repository._isInProgress.observe(viewLifecycleOwner, { isLoading ->
             isLoading.let {
                 if (it) {
                     empty_text.visibility = View.GONE
@@ -68,7 +68,7 @@ class TrendingFragment : Fragment() {
     }
 
     private fun observeIsError() {
-        viewModel._isError.observe(viewLifecycleOwner, { isError ->
+        viewModel.repository._isError.observe(viewLifecycleOwner, { isError ->
             isError.let {
                 if (it) {
                     disableViewsOnError()
@@ -89,7 +89,7 @@ class TrendingFragment : Fragment() {
     }
 
     private fun observeGiphyList() {
-        viewModel.data.observe(viewLifecycleOwner, { giphies ->
+        viewModel.repository.data.observe(viewLifecycleOwner, { giphies ->
             giphies?.let {
                 if (it.isNotEmpty()) {
                     fetch_progress.visibility = View.VISIBLE

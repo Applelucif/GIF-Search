@@ -1,6 +1,8 @@
 package com.example.gyphyclient.repository
 
 import KEY
+import android.content.Context
+import android.content.Intent
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.example.gyphyclient.GiphyApplication
@@ -32,16 +34,26 @@ class TrendingRepository {
     val data: MutableLiveData<List<Data>>
         get() = _data
 
-    private val _isInProgress by lazy { MutableLiveData<Boolean>() }
+    val _isInProgress by lazy { MutableLiveData<Boolean>() }
     val isInProgress: MutableLiveData<Boolean>
         get() = _isInProgress
 
-    private val _isError by lazy { MutableLiveData<Boolean>() }
+    val _isError by lazy { MutableLiveData<Boolean>() }
     val isError: MutableLiveData<Boolean>
         get() = _isError
 
     init {
         DaggerAppComponent.create().inject(this)
+    }
+
+    fun gifShare(data: Data, context: Context) {
+        val sendIntent: Intent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, data.images.original?.webp)
+            type = "text/plain"
+        }
+        val shareIntent = Intent.createChooser(sendIntent, "Поделиться гифкой")
+        context.startActivity(shareIntent)
     }
 
     fun insertData(offset : Int = 0): Disposable {
@@ -57,7 +69,9 @@ class TrendingRepository {
     }
 
     fun insertFavoriteData(gif: Data) {
-        GiphyApplication.database.dataDao().insertFavoriteData(gif.toDataFavoriteEntity())
+        Thread {
+            GiphyApplication.database.dataDao().insertFavoriteData(gif.toDataFavoriteEntity())
+        }.start()
     }
 
 

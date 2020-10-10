@@ -3,12 +3,9 @@ package com.example.gyphyclient.viewmodel
 import android.app.DownloadManager
 import android.app.ProgressDialog
 import android.content.Context
-import android.content.Intent
 import android.database.Cursor
 import android.net.Uri
-import android.os.Build
 import android.os.Environment
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import com.example.gyphyclient.di.DaggerAppComponent
 import com.example.gyphyclient.model.Data
@@ -41,25 +38,12 @@ class TrendingViewModel : ViewModel() {
         compositeDisposable.clear()
     }
 
-    fun gifShare(data: Data, context: Context) {
-        val sendIntent: Intent = Intent().apply {
-            action = Intent.ACTION_SEND
-            putExtra(Intent.EXTRA_TEXT, data.images.original?.webp)
-            type = "text/plain"
-        }
-            //TODO вынести строку в строковые ресурсы
-        val shareIntent = Intent.createChooser(sendIntent, "Поделиться гифкой")
-        context.startActivity(shareIntent)
-    }
-
     fun addToFavorite(gif: Data) {
         Thread {
             repository.insertFavoriteData(gif)
         }.start()
     }
 
-    //TODO перенести функционал при добавления в избранное
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     fun gifSave(data: Data, context: Context) {
         val downloadManager = context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
         val uriGif: Uri = Uri.parse(data.images.original?.webp.toString())
@@ -71,7 +55,7 @@ class TrendingViewModel : ViewModel() {
             .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
             .setDestinationUri(Uri.parse("file://" + aExtDcimDir.path + "/${data.title}.gif"))
         val dialog = ProgressDialog(context)
-        dialog.setMessage("Loading. Please wait...")
+        dialog.setMessage("Идет сохранение гифки, пожалуйста, подождите...")
         dialog.setCancelable(false)
         dialog.max = 100
         dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL)
