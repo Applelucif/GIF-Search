@@ -1,13 +1,20 @@
 package com.example.gyphyclient.viewmodel
 
+import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.gyphyclient.data.database.DataFavoriteEntity
 import com.example.gyphyclient.data.database.toDataList
 import com.example.gyphyclient.di.DaggerAppComponent
 import com.example.gyphyclient.model.Data
 import com.example.gyphyclient.repository.TrendingRepository
 import io.reactivex.Flowable
+import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
 import io.reactivex.processors.BehaviorProcessor
+import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -15,6 +22,18 @@ class SearchViewModel : ViewModel() {
 
     @Inject
     lateinit var repository: TrendingRepository
+
+    private val _data by lazy { MutableLiveData<List<Data>>() }
+    val data: MutableLiveData<List<Data>>
+        get() = _data
+
+    val _isInProgress by lazy { MutableLiveData<Boolean>() }
+    val isInProgress: MutableLiveData<Boolean>
+        get() = _isInProgress
+
+    val _isError by lazy { MutableLiveData<Boolean>() }
+    val isError: MutableLiveData<Boolean>
+        get() = _isError
 
     private val compositeDisposable by lazy { CompositeDisposable() }
     private val querySearchProcessor = BehaviorProcessor.create<String>()
@@ -29,15 +48,39 @@ class SearchViewModel : ViewModel() {
                 }
                 .subscribe { (searchText, list) ->
                     //TODO состояния view перенести во viewmodel
-                    repository.isInProgress.postValue(true)
+                    isInProgress.postValue(true)
                     if (list.isNotEmpty()) {
-                        repository.isError.postValue(false)
-                        repository.data.postValue(list.toDataList())
+                        isError.postValue(false)
+                        data.postValue(list.toDataList())
                     } else {
                         repository.searchGif(searchText)
                     }
-                    repository.isInProgress.postValue(false)
+                    isInProgress.postValue(false)
                 })
+    }
+
+    fun getListSearch(searchTerm: String): Disposable {
+        return repository.querySearchData(searchTerm)
+        .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                { (searchText, dataEntityList) ->
+                    _isInProgress.postValue(true)
+                    if (dataEntityList != null && dataEntityList.isNotEmpty()) {
+                        _isError.postValue(false)
+                        repository.setList(dataEntityList.toDataList())
+                    } else {
+                        repository.searchGif(searchTerm)
+                    }
+                    _isInProgress.postValue(false)
+                },
+                {
+                    _isInProgress.postValue(true)
+                    Log.e("getSearchingQuery()", "Database error: ${it.message}")
+                    _isError.postValue(true)
+                    _isInProgress.postValue(false)
+                }
+            )
     }
 
     fun search(query: String) {

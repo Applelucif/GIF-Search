@@ -55,7 +55,7 @@ class FavoriteFragment : Fragment() {
     }
 
     private fun observeInProgress() {
-        viewModel.repository._isInProgress.observe(this, Observer { isLoading ->
+        viewModel._isInProgress.observe(this, Observer { isLoading ->
             isLoading.let {
                 if (it) {
                     empty_text.visibility = View.GONE
@@ -69,7 +69,7 @@ class FavoriteFragment : Fragment() {
     }
 
     private fun observeIsError() {
-        viewModel.repository._isError.observe(this, Observer { isError ->
+        viewModel._isError.observe(this, Observer { isError ->
             isError.let {
                 if (it) {
                     disableViewsOnError()
@@ -90,7 +90,7 @@ class FavoriteFragment : Fragment() {
     }
 
     private fun observeGiphyList() {
-        viewModel.repository.data.observe(this, Observer { giphies ->
+        viewModel.data.observe(this, Observer { giphies ->
             giphies.let {
                 if (it != null && it.isNotEmpty()) {
                     fetch_progress.visibility = View.VISIBLE
