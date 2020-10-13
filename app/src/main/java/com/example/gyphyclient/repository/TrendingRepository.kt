@@ -9,7 +9,6 @@ import android.database.Cursor
 import android.net.Uri
 import android.os.Environment
 import android.util.Log
-import androidx.lifecycle.MutableLiveData
 import com.example.gyphyclient.GiphyApplication
 import com.example.gyphyclient.data.database.*
 import com.example.gyphyclient.data.network.GiphyApi
@@ -43,7 +42,7 @@ class TrendingRepository {
         DaggerAppComponent.create().inject(this)
     }
 
-    fun insertData(offset : Int = 0): Disposable {
+    fun insertData(offset: Int = 0): Disposable {
         return giphyApiService.getTrending(KEY, LIMIT, RATING, offset.toString())
             .subscribeOn(Schedulers.io())
             .subscribeWith(subscribeToDatabase())
@@ -119,7 +118,6 @@ class TrendingRepository {
         downloadsDisposable.add(progressFlow)
     }
 
-
     private fun subscribeToDatabase(): DisposableSubscriber<Result> {
         return object : DisposableSubscriber<Result>() {
             override fun onNext(result: Result?) {
@@ -132,10 +130,7 @@ class TrendingRepository {
             }
 
             override fun onError(t: Throwable?) {
-                _isInProgress.postValue(true)
                 Log.e("insertData()", "TrendingResult error: ${t?.message}")
-                _isError.postValue(true)
-                _isInProgress.postValue(false)
             }
 
             override fun onComplete() {
@@ -156,10 +151,7 @@ class TrendingRepository {
             }
 
             override fun onError(t: Throwable?) {
-                _isInProgress.postValue(true)
                 Log.e("insertSearchData()", "TrendingResult error: ${t?.message}")
-                _isError.postValue(true)
-                _isInProgress.postValue(false)
             }
 
             override fun onComplete() {

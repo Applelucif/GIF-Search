@@ -5,13 +5,11 @@ import androidx.databinding.BindingAdapter
 import com.facebook.binaryresource.FileBinaryResource
 import com.facebook.cache.common.CacheKey
 import com.facebook.drawee.backends.pipeline.Fresco
-import com.facebook.drawee.interfaces.DraweeController
 import com.facebook.drawee.view.SimpleDraweeView
 import com.facebook.imagepipeline.cache.DefaultCacheKeyFactory
 import com.facebook.imagepipeline.core.ImagePipelineFactory
 import com.facebook.imagepipeline.request.ImageRequest
 import java.io.File
-
 
 @BindingAdapter(*["bind:imageUrl", "bind:urlSmallGif", "bind:hash", "bind:height", "bind:width"])
 fun setImage(
@@ -40,7 +38,8 @@ fun setImage(
         }
     } else {
 
-        var uri: Uri = Uri.parse("https://media1.giphy.com/media/1gWKFK22fsi1nsK5O2/giphy-preview.gif?cid=7d042737sfn2g3g2nwo76ruetzopaj4bpjwr43s6zd6g0p87&rid=giphy-preview.gif")
+        var uri: Uri =
+            Uri.parse("https://media1.giphy.com/media/1gWKFK22fsi1nsK5O2/giphy-preview.gif?cid=7d042737sfn2g3g2nwo76ruetzopaj4bpjwr43s6zd6g0p87&rid=giphy-preview.gif")
         val controller = Fresco.newDraweeControllerBuilder()
             .setLowResImageRequest(ImageRequest.fromUri(uri))
             .setImageRequest(ImageRequest.fromUri(url))

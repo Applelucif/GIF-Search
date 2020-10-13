@@ -52,7 +52,7 @@ class TrendingViewModel : ViewModel() {
         }.start()
     }
 
-    fun getListTrending(): Disposable {
+    private fun getListTrending(): Disposable {
         return repository.getTrendingQuery()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())

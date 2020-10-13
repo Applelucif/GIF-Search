@@ -17,7 +17,7 @@ interface AppComponent {
     fun inject(viewModel: TrendingViewModel)
     fun inject(topFragment: TrendingFragment)
     fun inject(searchViewModel: SearchViewModel)
-    fun inject(srachFragment: SearchFragment)
+    fun inject(searchFragment: SearchFragment)
     fun inject(favoriteViewModel: FavoriteViewModel)
-    fun inject(favoriteFragmnt: FavoriteFragment)
+    fun inject(favoriteFragment: FavoriteFragment)
 }

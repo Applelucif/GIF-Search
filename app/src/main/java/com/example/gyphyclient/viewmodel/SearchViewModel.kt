@@ -66,7 +66,7 @@ class SearchViewModel : ViewModel() {
             .subscribe(
                 { (searchText, dataEntityList) ->
                     _isInProgress.postValue(true)
-                    if (dataEntityList != null && dataEntityList.isNotEmpty()) {
+                    if (dataEntityList.isNotEmpty()) {
                         _isError.postValue(false)
                         repository.setList(dataEntityList.toDataList())
                     } else {
