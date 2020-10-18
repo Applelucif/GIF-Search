@@ -45,12 +45,6 @@ class EndlessRecyclerView @JvmOverloads constructor(
                         isLoading = true
                         somethingActionWhenNearEnd() //когда наступит конец, здесь выполнится какое-то действие
                     }
-                    if (lastVisibleItemPosition == totalItemCount) {
-                        Toast.makeText(context, R.string.end_data, Toast.LENGTH_SHORT)
-                            .show()
-                        isLoading = true
-                        somethingActionWhenNearEnd()
-                    }
                 }
             }
         })

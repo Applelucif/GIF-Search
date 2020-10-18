@@ -12,14 +12,12 @@ import com.example.gyphyclient.R
 import com.example.gyphyclient.di.DaggerAppComponent
 import com.example.gyphyclient.view.adapter.TrendingAdapter
 import com.example.gyphyclient.viewmodel.SearchViewModel
-import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_search.*
 import javax.inject.Inject
 
 class SearchFragment() : Fragment() {
 
     private val viewModel: SearchViewModel by viewModels()
-    private val compositeDisposable by lazy { CompositeDisposable() }
 
     @Inject
     lateinit var trendingAdapter: TrendingAdapter
@@ -57,21 +55,6 @@ class SearchFragment() : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_search, container, false)
-    }
-
-    override fun onStart() {
-        super.onStart()
-        compositeDisposable.add(
-            viewModel.getGifFlow()
-                .subscribe() { listEntity ->
-                    trendingAdapter.setUpData(listEntity, {}, {})
-                }
-        )
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        compositeDisposable.clear()
     }
 
     private fun setUpRecyclerView() {

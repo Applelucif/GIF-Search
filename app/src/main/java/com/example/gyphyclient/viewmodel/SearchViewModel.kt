@@ -1,20 +1,12 @@
 package com.example.gyphyclient.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.gyphyclient.data.database.DataFavoriteEntity
-import com.example.gyphyclient.data.database.toDataList
 import com.example.gyphyclient.di.DaggerAppComponent
 import com.example.gyphyclient.model.Data
 import com.example.gyphyclient.repository.TrendingRepository
-import io.reactivex.Flowable
-import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
 import io.reactivex.processors.BehaviorProcessor
-import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -46,53 +38,23 @@ class SearchViewModel : ViewModel() {
                 .switchMap { value ->
                     repository.querySearchData(value).toFlowable()
                 }
-                .subscribe { (searchText, list) ->
-                    //TODO состояния view перенести во viewmodel
+                .subscribe { list ->
                     isInProgress.postValue(true)
                     if (list.isNotEmpty()) {
                         isError.postValue(false)
-                        data.postValue(list.toDataList())
+                        data.postValue(list)
                     } else {
-                        repository.searchGif(searchText)
                     }
                     isInProgress.postValue(false)
                 })
-    }
-
-    fun getListSearch(searchTerm: String): Disposable {
-        return repository.querySearchData(searchTerm)
-        .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                { (searchText, dataEntityList) ->
-                    _isInProgress.postValue(true)
-                    if (dataEntityList.isNotEmpty()) {
-                        _isError.postValue(false)
-                        repository.setList(dataEntityList.toDataList())
-                    } else {
-                        repository.searchGif(searchTerm)
-                    }
-                    _isInProgress.postValue(false)
-                },
-                {
-                    _isInProgress.postValue(true)
-                    Log.e("getSearchingQuery()", "Database error: ${it.message}")
-                    _isError.postValue(true)
-                    _isInProgress.postValue(false)
-                }
-            )
     }
 
     fun search(query: String) {
         querySearchProcessor.onNext(query)
     }
 
-    fun getGifFlow(): Flowable<List<Data>> {
-        return repository.getGifFlow()
-    }
-
     fun addToFavorite(gif: Data) {
-            repository.insertFavoriteData(gif)
+        repository.insertFavoriteData(gif)
     }
 
     override fun onCleared() {

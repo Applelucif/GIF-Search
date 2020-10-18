@@ -2,6 +2,7 @@ package com.example.gyphyclient.data.network
 
 import com.example.gyphyclient.model.Result
 import io.reactivex.Flowable
+import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -13,11 +14,12 @@ interface GiphyApi {
         @Query("rating") rating: String,
         @Query("offset") offset: String
     ): Flowable<Result>
+
     @GET("v1/gifs/search")
     fun getSeach(
         @Query("api_key") apiKey: String,
         @Query("limit") limit: String,
         @Query("rating") rating: String,
         @Query("q") searchTerm: String
-    ): Flowable<Result>
+    ): Single<Result>
 }

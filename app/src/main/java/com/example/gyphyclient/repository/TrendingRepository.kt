@@ -14,7 +14,6 @@ import com.example.gyphyclient.data.database.*
 import com.example.gyphyclient.data.network.GiphyApi
 import com.example.gyphyclient.di.DaggerAppComponent
 import com.example.gyphyclient.internal.LIMIT
-import com.example.gyphyclient.internal.RATING
 import com.example.gyphyclient.internal.SEARCH_LIMIT
 import com.example.gyphyclient.model.Data
 import com.example.gyphyclient.model.Result
@@ -23,7 +22,6 @@ import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
-import io.reactivex.processors.BehaviorProcessor
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subscribers.DisposableSubscriber
 import java.util.concurrent.TimeUnit
@@ -43,7 +41,7 @@ class TrendingRepository {
     }
 
     fun insertData(offset: Int = 0): Disposable {
-        return giphyApiService.getTrending(KEY, LIMIT, RATING, offset.toString())
+        return giphyApiService.getTrending(KEY, LIMIT, "G", offset.toString())
             .subscribeOn(Schedulers.io())
             .subscribeWith(subscribeToDatabase())
     }
@@ -54,10 +52,8 @@ class TrendingRepository {
         }.start()
     }
 
-    fun searchGif(searchTerm: String): Disposable {
-        return giphyApiService.getSeach(KEY, SEARCH_LIMIT, RATING, searchTerm)
-            .subscribeOn(Schedulers.io())
-            .subscribeWith(subscribeToSearchDatabase(searchTerm))
+    fun searchGif(searchTerm: String): Single<Result> {
+        return giphyApiService.getSeach(KEY, SEARCH_LIMIT, "G", searchTerm)
     }
 
     fun gifShare(data: Data, context: Context) {
@@ -80,12 +76,12 @@ class TrendingRepository {
             .setDescription("Downloading")
             .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
             .setDestinationUri(Uri.parse("file://" + aExtDcimDir.path + "/${data.title}.gif"))
-        val dialog = ProgressDialog(context)
+       /* val dialog = ProgressDialog(context)
         dialog.setMessage("Идет сохранение гифки, пожалуйста, подождите...")
         dialog.setCancelable(false)
         dialog.max = 100
         dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL)
-        dialog.show()
+        dialog.show()*/
         val downloadId = downloadManager.enqueue(request)
 
         val progressFlow = Flowable
@@ -106,10 +102,10 @@ class TrendingRepository {
                         var progress = 0.0
                         if (size != -1L)
                             progress = downloaded * 100.0 / size
-                        dialog.progress = progress.toInt()
+                        //dialog.progress = progress.toInt()
 
                         if (progress == 100.0) {
-                            dialog.cancel()
+                         //   dialog.cancel()
                             downloadsDisposable.clear()
                         }
                     }
@@ -139,56 +135,19 @@ class TrendingRepository {
         }
     }
 
-    private fun subscribeToSearchDatabase(searchTerm: String): DisposableSubscriber<Result> {
-        return object : DisposableSubscriber<Result>() {
-            override fun onNext(result: Result?) {
-                if (result != null) {
-                    val entityList = result.data.toList().toSearchDataEntityList(searchTerm)
-                    GiphyApplication.database.apply {
-                        dataDao().insertSearchData(entityList)
-                    }
-                }
-            }
-
-            override fun onError(t: Throwable?) {
-                Log.e("insertSearchData()", "TrendingResult error: ${t?.message}")
-            }
-
-            override fun onComplete() {
-                getSearchingQuery(searchTerm)
-            }
-        }
-    }
-
-    fun getFavoriteQuery(): Single<List<DataFavoriteEntity>> {
+    fun getFavoriteQuery(): Flowable<List<DataFavoriteEntity>> {
         return GiphyApplication.database.dataDao()
             .queryFavoriteData()
     }
 
-    fun getTrendingQuery(): Single<List<DataEntity>> {
+    fun getTrendingQuery(): Flowable<List<DataEntity>> {
         return GiphyApplication.database.dataDao()
             .queryData()
     }
 
-    private val searchedGifProcessor = BehaviorProcessor.create<List<Data>>()
-
-    fun setList(list: List<Data>) {
-        searchedGifProcessor.onNext(list)
-    }
-
-    fun getGifFlow(): Flowable<List<Data>> {
-        return searchedGifProcessor
-    }
-
-    private fun getSearchingQuery(searchTerm: String): Single<Pair<String, List<DataSearchEntity>>> {
-        return querySearchData(searchTerm)
-    }
-
-    fun querySearchData(searchTerm: String): Single<Pair<String, List<DataSearchEntity>>> {
-        return GiphyApplication.database.dataDao()
-            .queryData(searchTerm)
-            .map {
-                searchTerm to it
-            }
+    fun querySearchData(searchTerm: String): Single<List<Data>> {
+        return searchGif(searchTerm).map {
+            it.data
+        }
     }
 }
