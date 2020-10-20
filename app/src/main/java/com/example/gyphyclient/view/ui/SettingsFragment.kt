@@ -1,19 +1,14 @@
 package com.example.gyphyclient.view.ui
 
-import android.content.Context.MODE_PRIVATE
-import android.content.SharedPreferences
 import android.os.Bundle
-import android.preference.Preference
 import android.preference.PreferenceManager
-import android.util.Log
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CompoundButton
 import android.widget.RadioGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.example.gyphyclient.GiphyApplication
 import com.example.gyphyclient.R
 import kotlinx.android.synthetic.main.settings_fragment.*
 
@@ -28,9 +23,16 @@ class SettingsFragment : Fragment() {
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
+
         super.onActivityCreated(savedInstanceState)
 
-        rating_radio_group.setOnCheckedChangeListener() { radioGroup: RadioGroup, checkedId: Int ->
+        val preferences =
+            PreferenceManager.getDefaultSharedPreferences(GiphyApplication.getAppContext())
+        preferences.apply {
+            switch1.isChecked = getBoolean("THEME", false)
+        }
+
+        rating_radio_group.setOnCheckedChangeListener() { _: RadioGroup, checkedId: Int ->
             when (checkedId) {
                 R.id.g_rating -> setRating("G")
                 R.id.pg_rating -> setRating("PG")
@@ -39,21 +41,27 @@ class SettingsFragment : Fragment() {
             }
         }
 
-
-        switch1.setOnCheckedChangeListener() { compoundButton: CompoundButton, b: Boolean ->
-            Toast.makeText(
-                context, "Положение: " + if (b) "справа" else "слева",
-                Toast.LENGTH_SHORT
-            ).show()
+        switch1.setOnCheckedChangeListener() { _: CompoundButton, isLight: Boolean ->
+            setTheme(isLight)
+            activity?.recreate()
         }
     }
 
-    fun setRating(rating: String) {
+    private fun setRating(rating: String) {
         val preferences = PreferenceManager.getDefaultSharedPreferences(context)
         val editor = preferences.edit()
 
         editor
             .putString("RATING", rating)
             .apply()
-        }
+    }
+
+    private fun setTheme(isLight: Boolean) {
+        val preferences = PreferenceManager.getDefaultSharedPreferences(context)
+        val editor = preferences.edit()
+
+        editor
+            .putBoolean("THEME", isLight)
+            .apply()
+    }
 }

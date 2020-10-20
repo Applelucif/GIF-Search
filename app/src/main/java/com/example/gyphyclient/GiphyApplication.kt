@@ -1,14 +1,20 @@
 package com.example.gyphyclient
 
 import android.app.Application
+import android.content.Context
 import android.os.Parcel
 import android.os.Parcelable
 import com.example.gyphyclient.data.database.TrendingDatabase
 
 class GiphyApplication : Application(), Parcelable {
+
     companion object {
         lateinit var instance: GiphyApplication
         lateinit var database: TrendingDatabase
+
+        fun getAppContext(): Context {
+            return instance
+        }
     }
 
     init {

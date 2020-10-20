@@ -8,6 +8,7 @@ import android.content.Intent
 import android.database.Cursor
 import android.net.Uri
 import android.os.Environment
+import android.preference.PreferenceManager
 import android.util.Log
 import com.example.gyphyclient.GiphyApplication
 import com.example.gyphyclient.data.database.*
@@ -24,8 +25,10 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subscribers.DisposableSubscriber
+import kotlinx.coroutines.withContext
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import kotlin.coroutines.coroutineContext
 
 class TrendingRepository {
 
@@ -41,7 +44,13 @@ class TrendingRepository {
     }
 
     fun insertData(offset: Int = 0): Disposable {
-        return giphyApiService.getTrending(KEY, LIMIT, "G", offset.toString())
+        var rating = ""
+        val preferences = PreferenceManager.getDefaultSharedPreferences(GiphyApplication.getAppContext())
+        preferences.apply {
+            rating = getString("RATING", "").toString()
+        }
+
+        return giphyApiService.getTrending(KEY, LIMIT, rating, offset.toString())
             .subscribeOn(Schedulers.io())
             .subscribeWith(subscribeToDatabase())
     }
@@ -52,8 +61,13 @@ class TrendingRepository {
         }.start()
     }
 
-    fun searchGif(searchTerm: String): Single<Result> {
-        return giphyApiService.getSeach(KEY, SEARCH_LIMIT, "G", searchTerm)
+    private fun searchGif(searchTerm: String): Single<Result> {
+        var rating = ""
+        val preferences = PreferenceManager.getDefaultSharedPreferences(GiphyApplication.getAppContext())
+        preferences.apply {
+            rating = getString("RATING", "").toString()
+        }
+        return giphyApiService.getSeach(KEY, SEARCH_LIMIT, rating, searchTerm)
     }
 
     fun gifShare(data: Data, context: Context) {

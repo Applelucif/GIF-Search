@@ -1,7 +1,10 @@
 package com.example.gyphyclient.view.ui
 
+import android.content.res.Resources
 import android.os.Bundle
+import android.preference.PreferenceManager
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import com.example.gyphyclient.R
 import com.facebook.drawee.backends.pipeline.Fresco
@@ -15,12 +18,24 @@ class MainActivity : AppCompatActivity() {
     private val fragmentSettings = SettingsFragment()
     private var active: Fragment = fragmentTrending
     private val fm = supportFragmentManager
+    var isLight = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
-        Fresco.initialize(this)
+
+        val preferences = PreferenceManager.getDefaultSharedPreferences(applicationContext)
+        preferences.apply {
+            isLight = getBoolean("THEME", false)
+        }
+        if (isLight) {
+            setTheme(R.style.AppTheme)
+        }
+        else {
+            setTheme(R.style.DarkAppTheme)
+        }
+
         setContentView(R.layout.activity_main)
+        Fresco.initialize(this)
 
         fm.beginTransaction().add(R.id.fragment_container, fragmentSettings, "4")
             .hide(fragmentSettings)
@@ -35,6 +50,13 @@ class MainActivity : AppCompatActivity() {
             .commit();
 
         setBottomNavigationView()
+    }
+
+    override fun getTheme(): Resources.Theme {
+
+        var theme = super.getTheme()
+
+        return theme
     }
 
     private fun setBottomNavigationView() {
