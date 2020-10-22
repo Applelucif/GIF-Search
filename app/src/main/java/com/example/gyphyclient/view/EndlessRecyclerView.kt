@@ -14,6 +14,7 @@ class EndlessRecyclerView @JvmOverloads constructor(
 ) :
     RecyclerView(context, attrs, defStyleAttr) {
     var isLoading = false
+    var lastVisibleItemPosition = 0
 
     init {
         addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -38,7 +39,7 @@ class EndlessRecyclerView @JvmOverloads constructor(
                         (recyclerView.layoutManager as StaggeredGridLayoutManager).findLastVisibleItemPositions(
                             null
                         )
-                    var lastVisibleItemPosition = getLastVisibleItem(lastVisibleItemPositions)
+                    lastVisibleItemPosition = getLastVisibleItem(lastVisibleItemPositions)
                     if (!isLoading && lastVisibleItemPosition == totalItemCount - lastMinusThisPosition) {
                         Toast.makeText(context, R.string.end_data, Toast.LENGTH_SHORT)
                             .show()

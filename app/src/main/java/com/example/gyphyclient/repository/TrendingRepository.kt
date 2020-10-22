@@ -71,10 +71,12 @@ class TrendingRepository {
     }
 
     fun gifShare(data: Data, context: Context) {
+        //TODO решить, что делать с поделиться
+        var fullPath: Uri = Uri.parse(context.cacheDir.absolutePath + "/image_manager_disk_cache/" + data.images.original?.hash + ".webp")
         val sendIntent: Intent = Intent().apply {
             action = Intent.ACTION_SEND
-            putExtra(Intent.EXTRA_TEXT, data.images.original?.webp)
-            type = "text/plain"
+            type = "image/webp"
+            putExtra(Intent.EXTRA_STREAM, fullPath)
         }
         val shareIntent = Intent.createChooser(sendIntent, "Поделиться гифкой")
         context.startActivity(shareIntent)
@@ -89,7 +91,7 @@ class TrendingRepository {
             .setTitle(data.title.substringBefore("GIF"))
             .setDescription("Downloading")
             .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
-            .setDestinationUri(Uri.parse("file://" + aExtDcimDir.path + "/${data.title}.gif"))
+            .setDestinationUri(Uri.parse("file://" + aExtDcimDir.path + "/${data.title}.webp"))
        /* val dialog = ProgressDialog(context)
         dialog.setMessage("Идет сохранение гифки, пожалуйста, подождите...")
         dialog.setCancelable(false)

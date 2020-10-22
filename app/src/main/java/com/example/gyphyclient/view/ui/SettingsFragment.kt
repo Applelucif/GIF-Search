@@ -1,5 +1,8 @@
 package com.example.gyphyclient.view.ui
 
+import android.app.Application
+import android.content.Intent
+import android.content.Intent.getIntent
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.view.LayoutInflater
@@ -43,7 +46,6 @@ class SettingsFragment : Fragment() {
 
         switch1.setOnCheckedChangeListener() { _: CompoundButton, isLight: Boolean ->
             setTheme(isLight)
-            activity?.recreate()
         }
     }
 
@@ -63,5 +65,14 @@ class SettingsFragment : Fragment() {
         editor
             .putBoolean("THEME", isLight)
             .apply()
+
+        val intent =  activity?.intent // from getIntent()
+        intent?.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+        activity?.finish()
+        startActivity(intent)
+    }
+
+    companion object {
+        const val TAG = "SettingsFragment"
     }
 }

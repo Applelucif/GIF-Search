@@ -114,4 +114,5 @@ dependencies {
     implementation "androidx.room:room-rxjava2:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
 
+    compile 'com.mani:ThinDownloadManager:1.4.0'
 }

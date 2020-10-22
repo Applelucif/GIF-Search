@@ -4,11 +4,11 @@ import android.content.res.Resources
 import android.os.Bundle
 import android.preference.PreferenceManager
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import com.example.gyphyclient.R
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.android.synthetic.main.fragment_top.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -24,14 +24,19 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         val preferences = PreferenceManager.getDefaultSharedPreferences(applicationContext)
+        val editor = preferences.edit()
+
+        editor
+            .putString("TAG", TrendingFragment.TAG)
+            .apply()
+
         preferences.apply {
             isLight = getBoolean("THEME", false)
         }
         if (isLight) {
-            setTheme(R.style.AppTheme)
-        }
-        else {
-            setTheme(R.style.DarkAppTheme)
+            theme.applyStyle(R.style.AppTheme, true)
+        } else {
+            theme.applyStyle(R.style.DarkAppTheme, true)
         }
 
         setContentView(R.layout.activity_main)
@@ -45,18 +50,84 @@ class MainActivity : AppCompatActivity() {
             .commit()
         fm.beginTransaction().add(R.id.fragment_container, fragmentSearch, "2")
             .hide(fragmentSearch)
-            .commit();
+            .commit()
         fm.beginTransaction().add(R.id.fragment_container, fragmentTrending, "1")
-            .commit();
+            .commit()
 
         setBottomNavigationView()
     }
 
-    override fun getTheme(): Resources.Theme {
+    override fun onPause() {
+        val preferences = PreferenceManager.getDefaultSharedPreferences(this)
+        val editor = preferences.edit()
 
-        var theme = super.getTheme()
+        when (active) {
+            fragmentSettings -> {
+                editor
+                    .putString("TAG", SettingsFragment.TAG)
+                    .apply()
+            }
+            fragmentTrending -> {
+                editor
+                    .putString("TAG", TrendingFragment.TAG)
+                    .apply()
+            }
+            fragmentSearch -> {
+                editor
+                    .putString("TAG", SearchFragment.TAG)
+                    .apply()
+            }
+            fragmentFavorite -> {
+                editor
+                    .putString("TAG", FavoriteFragment.TAG)
+                    .apply()
+            }
+        }
 
-        return theme
+        super.onPause()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        var activeFragment = ""
+        val preferences = PreferenceManager.getDefaultSharedPreferences(applicationContext)
+        preferences.apply {
+            activeFragment = getString("TAG", "").toString()
+        }
+        when (activeFragment) {
+            "SettingsFragment" -> {
+                fm
+                    .beginTransaction()
+                    .hide(active)
+                    .show(fragmentSettings)
+                    .commit()
+                active = fragmentSettings
+            }
+            "FavoriteFragment" -> {
+                fm
+                    .beginTransaction()
+                    .hide(active)
+                    .show(fragmentFavorite)
+                    .commit()
+                active = fragmentFavorite
+            }
+            "SearchFragment" -> {
+                fm
+                    .beginTransaction()
+                    .hide(active)
+                    .show(fragmentSearch)
+                    .commit()
+                active = fragmentSearch
+            }
+            "TrendingFragment" -> {
+                fm
+                    .beginTransaction()
+                    .hide(active)
+                    .show(fragmentTrending)
+                    .commit()
+                active = fragmentTrending
+            }
+        }
     }
 
     private fun setBottomNavigationView() {
@@ -86,7 +157,6 @@ class MainActivity : AppCompatActivity() {
                         .show(fragmentFavorite)
                         .commit()
                     active = fragmentFavorite
-                    fragmentFavorite.backToFavoriteFragment()
                 }
                 R.id.settings -> {
                     fm

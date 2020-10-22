@@ -23,6 +23,17 @@ class FavoriteFragment : Fragment() {
     @Inject
     lateinit var favoriteAdapter: FavoriteAdapter
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        setUpRecyclerView()
+        observeInProgress()
+        observeIsError()
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            observeGiphyList()
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         DaggerAppComponent.create().inject(this)
@@ -34,15 +45,6 @@ class FavoriteFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.favorite_fragment, container, false)
-    }
-
-    fun backToFavoriteFragment() {
-        setUpRecyclerView()
-        observeInProgress()
-        observeIsError()
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            observeGiphyList()
-        }
     }
 
     private fun setUpRecyclerView() {
@@ -63,6 +65,7 @@ class FavoriteFragment : Fragment() {
                     fetch_progress.visibility = View.VISIBLE
                 } else {
                     fetch_progress.visibility = View.GONE
+                    empty_text.visibility = View.VISIBLE
                 }
             }
         })
@@ -70,6 +73,7 @@ class FavoriteFragment : Fragment() {
 
     private fun observeIsError() {
         viewModel._isError.observe(this, Observer { isError ->
+            empty_text.visibility = View.GONE
             isError.let {
                 if (it) {
                     disableViewsOnError()
@@ -92,7 +96,7 @@ class FavoriteFragment : Fragment() {
     private fun observeGiphyList() {
         viewModel.data.observe(this, Observer { giphies ->
             giphies.let {
-                if (it != null && it.isNotEmpty()) {
+                if (it!= null && it.isNotEmpty()) {
                     fetch_progress.visibility = View.VISIBLE
                     recycler_view.visibility = View.VISIBLE
                     favoriteAdapter.setUpData(
@@ -112,5 +116,6 @@ class FavoriteFragment : Fragment() {
     companion object {
         private const val SPAN_COUNT = 2
         private const val ORIENTATION = 1
+        const val TAG = "FavoriteFragment"
     }
 }

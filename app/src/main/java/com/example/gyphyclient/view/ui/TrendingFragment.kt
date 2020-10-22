@@ -1,6 +1,8 @@
 package com.example.gyphyclient.view.ui
 
 import android.os.Bundle
+import android.preference.PreferenceManager
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -41,6 +43,27 @@ class TrendingFragment : Fragment() {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
             observeGiphyList()
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        val preferences = PreferenceManager.getDefaultSharedPreferences(context)
+        val editor = preferences.edit()
+        editor
+            .putInt("LASTPOSITION", recycler_view.lastVisibleItemPosition)
+            .apply()
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        var lastPosition = 0
+        val preferences = PreferenceManager.getDefaultSharedPreferences(context)
+        preferences.apply {
+            lastPosition = getInt("LASTPOSITION", 0)
+        }
+        recycler_view.scrollToPosition(lastPosition)
+        Log.i("123smotri123", "позиция =${lastPosition}")
     }
 
     private fun setUpRecyclerView() {
@@ -116,5 +139,6 @@ class TrendingFragment : Fragment() {
     companion object {
         private const val SPAN_COUNT = 2
         private const val ORIENTATION = 1
+        const val TAG = "TrendingFragment"
     }
 }

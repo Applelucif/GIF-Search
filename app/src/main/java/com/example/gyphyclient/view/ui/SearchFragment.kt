@@ -122,4 +122,8 @@ class SearchFragment() : Fragment() {
             }
         })
     }
+
+    companion object {
+        const val TAG = "SearchFragment"
+    }
 }
