@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import com.example.gyphyclient.R
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -40,7 +41,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         Fresco.initialize(this)
 
-        if (fm.beginTransaction().isEmpty) {
+        if (fm.fragments.isEmpty()) {
             fm.beginTransaction().add(R.id.fragment_container, fragmentSettings, SettingsFragment.javaClass.simpleName)
                 .hide(fragmentSettings)
                 .commit()
@@ -101,6 +102,7 @@ class MainActivity : AppCompatActivity() {
                     .show(fragmentSettings)
                     .commit()
                 active = fragmentSettings
+                bottom_navigation.selectedItemId = R.id.settings
             }
             "FavoriteFragment" -> {
                 fm
