@@ -48,7 +48,7 @@ fun setImage(
         var downloadManager = ThinDownloadManager()
         downloadManager.add(request)
 
-        //TODO работает с URL, а с файлом из памяти - нет
+        //TODO работает с URL, а с файлом из памяти - нет. Fresco не может прочитать jpg, который сохранен из gif
         val controller = Fresco.newDraweeControllerBuilder()
             .setLowResImageRequest(ImageRequest.fromUri(destUriSmall))
             .setImageRequest(ImageRequest.fromUri(url))

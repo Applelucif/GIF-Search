@@ -1,6 +1,5 @@
 package com.example.gyphyclient.view.ui
 
-import android.content.res.Resources
 import android.os.Bundle
 import android.preference.PreferenceManager
 import androidx.appcompat.app.AppCompatActivity
@@ -8,7 +7,6 @@ import androidx.fragment.app.Fragment
 import com.example.gyphyclient.R
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import kotlinx.android.synthetic.main.fragment_top.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -24,11 +22,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         val preferences = PreferenceManager.getDefaultSharedPreferences(applicationContext)
-        val editor = preferences.edit()
+/*        val editor = preferences.edit()
 
         editor
             .putString("TAG", TrendingFragment.TAG)
-            .apply()
+            .apply()*/
 
         preferences.apply {
             isLight = getBoolean("THEME", false)
@@ -55,12 +53,13 @@ class MainActivity : AppCompatActivity() {
             .commit()
 
         setBottomNavigationView()
+        onResume()
     }
 
     override fun onPause() {
-        val preferences = PreferenceManager.getDefaultSharedPreferences(this)
+        super.onPause()
+        val preferences = PreferenceManager.getDefaultSharedPreferences(applicationContext)
         val editor = preferences.edit()
-
         when (active) {
             fragmentSettings -> {
                 editor
@@ -83,8 +82,6 @@ class MainActivity : AppCompatActivity() {
                     .apply()
             }
         }
-
-        super.onPause()
     }
 
     override fun onResume() {
