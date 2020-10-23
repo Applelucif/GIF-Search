@@ -1,6 +1,7 @@
 package com.example.gyphyclient.internal
 
 import android.net.Uri
+import android.os.Environment
 import androidx.databinding.BindingAdapter
 import com.facebook.binaryresource.FileBinaryResource
 import com.facebook.cache.common.CacheKey

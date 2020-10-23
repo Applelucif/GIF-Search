@@ -63,7 +63,6 @@ class TrendingFragment : Fragment() {
             lastPosition = getInt("LASTPOSITION", 0)
         }
         recycler_view.scrollToPosition(lastPosition)
-        Log.i("123smotri123", "позиция =${lastPosition}")
     }
 
     private fun setUpRecyclerView() {
