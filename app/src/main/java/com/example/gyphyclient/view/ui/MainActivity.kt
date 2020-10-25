@@ -56,7 +56,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         setBottomNavigationView()
-        onResume()
+        //onResume()
     }
 
     override fun onPause() {
