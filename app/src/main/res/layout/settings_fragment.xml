@@ -54,6 +54,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:checked="true"
         android:text="Установка темы приложения"
         app:layout_constraintTop_toBottomOf="@+id/rating_radio_group"
         android:textOff="Темная"

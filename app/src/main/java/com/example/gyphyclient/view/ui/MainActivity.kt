@@ -1,9 +1,13 @@
 package com.example.gyphyclient.view.ui
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.preference.PreferenceManager
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
+import androidx.navigation.NavGraph
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
 import com.example.gyphyclient.R
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -11,27 +15,20 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
-    private val fragmentTrending = TrendingFragment()
-    private val fragmentSearch = SearchFragment()
-    private val fragmentFavorite = FavoriteFragment()
-    private val fragmentSettings = SettingsFragment()
-    private var active: Fragment = fragmentTrending
-    private val fm = supportFragmentManager
+    private lateinit var navGraph: NavGraph
     var isLight = true
+    var neededFragment = "TrendingFragment"
 
+    @SuppressLint("ResourceType")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         val preferences = PreferenceManager.getDefaultSharedPreferences(applicationContext)
-/*        val editor = preferences.edit()
-
-        editor
-            .putString("TAG", TrendingFragment.TAG)
-            .apply()*/
-
         preferences.apply {
-            isLight = getBoolean("THEME", false)
+            isLight = getBoolean("THEME", true)
+            neededFragment = getString("TAG", "TrendingFragment").toString()
         }
+
         if (isLight) {
             theme.applyStyle(R.style.AppTheme, true)
         } else {
@@ -41,134 +38,30 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         Fresco.initialize(this)
 
-        if (fm.fragments.isEmpty()) {
-            fm.beginTransaction().add(R.id.fragment_container, fragmentSettings, SettingsFragment.javaClass.simpleName)
-                .hide(fragmentSettings)
-                .commit()
-            fm.beginTransaction().add(R.id.fragment_container, fragmentFavorite, FavoriteFragment.javaClass.simpleName)
-                .hide(fragmentFavorite)
-                .commit()
-            fm.beginTransaction().add(R.id.fragment_container, fragmentSearch, SearchFragment.javaClass.simpleName)
-                .hide(fragmentSearch)
-                .commit()
-            fm.beginTransaction().add(R.id.fragment_container, fragmentTrending, TrendingFragment.javaClass.simpleName)
-                .commit()
+        val host = my_nav_host_fragment as NavHostFragment
+        val graphInflater = host.navController.navInflater
+        navGraph = graphInflater.inflate(R.navigation.nav_graph)
+
+        val navController = host.navController
+
+        if (neededFragment == "SettingsFragment") {
+            navGraph.startDestination = R.id.settingsFragment
+            navController.graph = navGraph
+        } else {
+            navGraph.startDestination = R.id.trendingFragment
+            navController.graph = navGraph
         }
 
-        setBottomNavigationView()
-        //onResume()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        val preferences = PreferenceManager.getDefaultSharedPreferences(applicationContext)
         val editor = preferences.edit()
-        when (active) {
-            fragmentSettings -> {
-                editor
-                    .putString("TAG", SettingsFragment.TAG)
-                    .apply()
-            }
-            fragmentTrending -> {
-                editor
-                    .putString("TAG", TrendingFragment.TAG)
-                    .apply()
-            }
-            fragmentSearch -> {
-                editor
-                    .putString("TAG", SearchFragment.TAG)
-                    .apply()
-            }
-            fragmentFavorite -> {
-                editor
-                    .putString("TAG", FavoriteFragment.TAG)
-                    .apply()
-            }
-        }
+        editor
+            .putString("TAG", "TrendingFragment")
+            .apply()
+
+        setupBottomNavMenu(navController)
     }
 
-    override fun onResume() {
-        super.onResume()
-        var activeFragment = ""
-        val preferences = PreferenceManager.getDefaultSharedPreferences(applicationContext)
-        preferences.apply {
-            activeFragment = getString("TAG", "").toString()
-        }
-        when (activeFragment) {
-            "SettingsFragment" -> {
-                fm
-                    .beginTransaction()
-                    .hide(active)
-                    .show(fragmentSettings)
-                    .commit()
-                active = fragmentSettings
-                bottom_navigation.selectedItemId = R.id.settings
-            }
-            "FavoriteFragment" -> {
-                fm
-                    .beginTransaction()
-                    .hide(active)
-                    .show(fragmentFavorite)
-                    .commit()
-                active = fragmentFavorite
-            }
-            "SearchFragment" -> {
-                fm
-                    .beginTransaction()
-                    .hide(active)
-                    .show(fragmentSearch)
-                    .commit()
-                active = fragmentSearch
-            }
-            "TrendingFragment" -> {
-                fm
-                    .beginTransaction()
-                    .hide(active)
-                    .show(fragmentTrending)
-                    .commit()
-                active = fragmentTrending
-            }
-        }
-    }
-
-    private fun setBottomNavigationView() {
-        var bottomNavigationView: BottomNavigationView = findViewById(R.id.bottom_navigation)
-        bottomNavigationView.setOnNavigationItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.top -> {
-                    fm
-                        .beginTransaction()
-                        .hide(active)
-                        .show(fragmentTrending)
-                        .commit()
-                    active = fragmentTrending
-                }
-                R.id.search -> {
-                    fm
-                        .beginTransaction()
-                        .hide(active)
-                        .show(fragmentSearch)
-                        .commit()
-                    active = fragmentSearch
-                }
-                R.id.favorite -> {
-                    fm
-                        .beginTransaction()
-                        .hide(active)
-                        .show(fragmentFavorite)
-                        .commit()
-                    active = fragmentFavorite
-                }
-                R.id.settings -> {
-                    fm
-                        .beginTransaction()
-                        .hide(active)
-                        .show(fragmentSettings)
-                        .commit()
-                    active = fragmentSettings
-                }
-            }
-            true
-        }
+    private fun setupBottomNavMenu(navController: NavController) {
+        val bottomNav = findViewById<BottomNavigationView>(R.id.bottom_navigation)
+        bottomNav?.setupWithNavController(navController)
     }
 }

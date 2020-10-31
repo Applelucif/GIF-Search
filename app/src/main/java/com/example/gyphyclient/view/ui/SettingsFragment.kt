@@ -32,7 +32,7 @@ class SettingsFragment : Fragment() {
         val preferences =
             PreferenceManager.getDefaultSharedPreferences(GiphyApplication.getAppContext())
         preferences.apply {
-            switch1.isChecked = getBoolean("THEME", false)
+            switch1.isChecked = getBoolean("THEME", true)
         }
 
         rating_radio_group.setOnCheckedChangeListener() { _: RadioGroup, checkedId: Int ->
@@ -64,6 +64,10 @@ class SettingsFragment : Fragment() {
 
         editor
             .putBoolean("THEME", isLight)
+            .apply()
+
+        editor
+            .putString("TAG", "SettingsFragment")
             .apply()
 
         val intent =  activity?.intent // from getIntent()

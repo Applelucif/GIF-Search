@@ -44,6 +44,9 @@ android {
 
 dependencies {
     implementation 'androidx.gridlayout:gridlayout:1.0.0'
+    implementation 'androidx.navigation:navigation-runtime-ktx:2.3.1'
+    implementation "androidx.navigation:navigation-fragment-ktx:2.3.1"
+    implementation "androidx.navigation:navigation-ui-ktx:2.3.1"
     def androidx_version = '1.1.0'
     def retrofit_version = '2.7.2'
     def dagger_version = '2.26'

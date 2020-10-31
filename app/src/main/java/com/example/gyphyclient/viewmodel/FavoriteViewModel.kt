@@ -36,7 +36,7 @@ class FavoriteViewModel : ViewModel() {
         compositeDisposable.add(getListFavorite())
     }
 
-    fun getListFavorite(): Disposable {
+    private fun getListFavorite(): Disposable {
         return repository.getFavoriteQuery()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
