@@ -20,12 +20,14 @@
         app:itemIconTint="@color/selector_bn"
         app:itemTextColor="@color/selector_bn" />
 
-    <fragment
+    <androidx.fragment.app.FragmentContainerView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:id="@+id/my_nav_host_fragment"
         android:name="androidx.navigation.fragment.NavHostFragment"
         app:defaultNavHost="true"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

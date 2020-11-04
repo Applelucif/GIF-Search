@@ -2,7 +2,8 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
-
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.crashlytics'
 
 android {
     compileSdkVersion 29
@@ -52,6 +53,11 @@ dependencies {
     def dagger_version = '2.26'
     def room_version = "2.2.5"
     def first_stable_version = '1.0.0'
+
+    //firebase
+    implementation platform('com.google.firebase:firebase-bom:26.0.0')
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation 'com.google.firebase:firebase-crashlytics-ktx'
 
     implementation('com.facebook.fresco:fresco:2.3.0') {
         exclude group: 'com.facebook.soloader', module: 'soloader'

@@ -40,7 +40,8 @@ class EndlessRecyclerView @JvmOverloads constructor(
                             null
                         )
                     lastVisibleItemPosition = getLastVisibleItem(lastVisibleItemPositions)
-                    if (!isLoading && lastVisibleItemPosition == totalItemCount - lastMinusThisPosition) {
+                    if ((!isLoading && lastVisibleItemPosition == totalItemCount - lastMinusThisPosition) || (!isLoading && lastVisibleItemPosition == totalItemCount - lastMinusThisPosition - 1))
+                    {
                         Toast.makeText(context, R.string.end_data, Toast.LENGTH_SHORT)
                             .show()
                         isLoading = true

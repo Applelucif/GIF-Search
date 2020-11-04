@@ -11,8 +11,14 @@ import android.view.ViewGroup
 import android.widget.CompoundButton
 import android.widget.RadioGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import com.example.gyphyclient.GiphyApplication
 import com.example.gyphyclient.R
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.analytics.ktx.logEvent
+import com.google.firebase.ktx.Firebase
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.settings_fragment.*
 
 class SettingsFragment : Fragment() {
@@ -23,6 +29,13 @@ class SettingsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.settings_fragment, container, false)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        Firebase.analytics.logEvent(FirebaseAnalytics.Event.SCREEN_VIEW) {
+            param(FirebaseAnalytics.Param.SCREEN_CLASS, TAG)
+        }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -69,6 +82,9 @@ class SettingsFragment : Fragment() {
         editor
             .putString("TAG", "SettingsFragment")
             .apply()
+
+        var fm:FragmentManager = requireActivity().supportFragmentManager;
+        var tmp = fm.backStackEntryCount
 
         val intent =  activity?.intent // from getIntent()
         intent?.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)

@@ -13,6 +13,10 @@ import com.example.gyphyclient.R
 import com.example.gyphyclient.di.DaggerAppComponent
 import com.example.gyphyclient.view.adapter.FavoriteAdapter
 import com.example.gyphyclient.viewmodel.FavoriteViewModel
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.analytics.ktx.logEvent
+import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.favorite_fragment.*
 import javax.inject.Inject
 
@@ -37,6 +41,9 @@ class FavoriteFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         DaggerAppComponent.create().inject(this)
+        Firebase.analytics.logEvent(FirebaseAnalytics.Event.SCREEN_VIEW) {
+            param(FirebaseAnalytics.Param.SCREEN_CLASS, TAG)
+        }
     }
 
     override fun onCreateView(

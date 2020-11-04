@@ -1,20 +1,20 @@
 package com.example.gyphyclient.viewmodel
 
-import android.content.Context
+import android.os.Parcelable
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.example.gyphyclient.data.database.toDataList
 import com.example.gyphyclient.di.DaggerAppComponent
 import com.example.gyphyclient.model.Data
 import com.example.gyphyclient.repository.TrendingRepository
-import com.example.gyphyclient.view.ui.TrendingFragment
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
-import kotlin.coroutines.coroutineContext
 
 class TrendingViewModel : ViewModel() {
 

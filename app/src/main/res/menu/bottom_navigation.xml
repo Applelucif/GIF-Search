@@ -2,19 +2,19 @@
 <menu
     xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/trendingFragment"
+        android:id="@+id/trending"
         android:icon="@drawable/ic_top"
         android:title="Top" />
     <item
-        android:id="@+id/searchFragment"
+        android:id="@+id/search"
         android:icon="@drawable/ic_magnifying_glass"
         android:title="Search" />
     <item
-        android:id="@+id/favoriteFragment"
+        android:id="@+id/favorite"
         android:icon="@drawable/ic_favorite"
         android:title="Favorite" />
     <item
-        android:id="@+id/settingsFragment"
+        android:id="@+id/settings"
         android:icon="@drawable/ic_settings"
         android:title="Settings" />
 </menu>

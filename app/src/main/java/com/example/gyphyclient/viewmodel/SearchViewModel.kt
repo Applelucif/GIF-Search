@@ -35,6 +35,8 @@ class SearchViewModel : ViewModel() {
         compositeDisposable.add(
             querySearchProcessor
                 .debounce(timeoutWhileSearch, TimeUnit.MILLISECONDS)
+                .distinct()
+                .filter { text -> text.isNotBlank() }
                 .switchMap { value ->
                     repository.querySearchData(value).toFlowable()
                 }

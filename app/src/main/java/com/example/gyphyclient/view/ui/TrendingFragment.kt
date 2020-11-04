@@ -8,10 +8,15 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.example.gyphyclient.GiphyApplication
 import com.example.gyphyclient.R
 import com.example.gyphyclient.di.DaggerAppComponent
 import com.example.gyphyclient.view.adapter.TrendingAdapter
 import com.example.gyphyclient.viewmodel.TrendingViewModel
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.analytics.ktx.logEvent
+import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.fragment_top.*
 import javax.inject.Inject
 
@@ -23,6 +28,9 @@ class TrendingFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         DaggerAppComponent.create().inject(this)
+        Firebase.analytics.logEvent(FirebaseAnalytics.Event.SCREEN_VIEW) {
+            param(FirebaseAnalytics.Param.SCREEN_CLASS, TAG)
+        }
     }
 
     override fun onCreateView(
@@ -57,7 +65,8 @@ class TrendingFragment : Fragment() {
         super.onResume()
 
         var lastPosition = 0
-        val preferences = PreferenceManager.getDefaultSharedPreferences(context)
+        val preferences =
+            PreferenceManager.getDefaultSharedPreferences(GiphyApplication.getAppContext())
         preferences.apply {
             lastPosition = getInt("LASTPOSITION", 0)
         }
