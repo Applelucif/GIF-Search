@@ -73,18 +73,15 @@ fun BottomNavigationView.setupWithNavController(
         // Obtain its id
         val graphId = navHostFragment.navController.graph.id
 
-        if (neededFragment == "TrendingFragment" && index == 0) {
-        }
-
-        if (neededFragment == "SettingsFragment" && index == 3) {
-            this.selectedItemId = graphId
-        }
-
         // Save to the map
         graphIdToTagMap[graphId] = fragmentTag
 
+        if (neededFragment == "SettingsFragment" && index == 3) {
+            this.selectedItemId = graphId
+            attachNavHostFragment(fragmentManager, navHostFragment, index == 0)
+        } else
         // Attach or detach nav host fragment depending on whether it's the selected item.
-        if (this.selectedItemId == graphId) {
+        if (this.selectedItemId == graphId && neededFragment != "SettingsFragment") {
             // Update livedata with the selected graph
             // selectedNavController.value = navHostFragment.navController
             attachNavHostFragment(fragmentManager, navHostFragment, index == 0)
@@ -101,8 +98,10 @@ fun BottomNavigationView.setupWithNavController(
     // Now connect selecting an item with swapping Fragments
     var selectedItemTag = graphIdToTagMap[this.selectedItemId]
     val firstFragmentTag = graphIdToTagMap[R.id.trending]
+    val lastFragmentTag = graphIdToTagMap[R.id.settings]
     var isOnFirstFragment = selectedItemTag == firstFragmentTag
 
+    if (neededFragment == "SettingsFragment") {
     val firstFragment = fragmentManager.findFragmentByTag(firstFragmentTag)
     if (firstFragment != null) {
         fragmentManager.beginTransaction()
@@ -112,10 +111,12 @@ fun BottomNavigationView.setupWithNavController(
                 R.anim.nav_default_pop_enter_anim,
                 R.anim.nav_default_pop_exit_anim
             )
-            .attach(firstFragment)
+            .attach(fragmentManager.findFragmentByTag(lastFragmentTag)!!)
             .setPrimaryNavigationFragment(firstFragment)
+            .detach(fragmentManager.findFragmentByTag(firstFragmentTag)!!)
             .addToBackStack(firstFragmentTag)
             .commit()
+    }
     }
 
     // When a navigation item is selected

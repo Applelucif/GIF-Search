@@ -1,67 +1,144 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     android:id="@+id/settings_fragment"
-    android:background="?attr/backgroundColor">
+    android:background="?attr/backgroundColor"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/rating_text"
+        android:id="@+id/heading"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="18dp"
-        android:text="Выбор рейтинга отображения Gif"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="MissingConstraints"
-        android:textColor="@color/black"
-        android:gravity="center"/>
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="50dp"
+        android:text="Настройки"
+        android:textColor="?attr/textColor"
+        android:textSize="30dp"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <RadioGroup
-        android:id="@+id/rating_radio_group"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/age"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/rating_text">
+        android:layout_height="0dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="5dp"
+        app:cardElevation="10dp"
+        app:cardCornerRadius="4dp"
+        app:layout_constraintTop_toBottomOf="@+id/heading">
 
-        <RadioButton
-            android:id="@+id/g_rating"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="G: Content that is appropriate for all ages and people." />
+            android:layout_height="match_parent"
+            android:background="?attr/cardBackgroundColor">
 
-        <RadioButton
-            android:id="@+id/pg_rating"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="PG: Content that is generally safe for everyone, but may require parental preview before children can watch." />
+            <TextView
+                android:id="@+id/rating_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="start"
+                android:text="Возрастной рейтинг Gif"
+                android:textColor="?attr/textColor"
+                android:textSize="18sp"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <RadioButton
-            android:id="@+id/pg13_rating"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="PG-13: Mild sexual innuendos, mild substance use, mild profanity, or threatening images. May include images of semi-naked people, but DOES NOT show real human genitalia or nudity." />
+            <RadioGroup
+                android:id="@+id/rating_radio_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/rating_text">
 
-        <RadioButton
-            android:id="@+id/r_rating"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="R: Strong language, strong sexual innuendo, violence, and illegal drug use; not suitable for teens or younger. NO NUDITY." />
+                <RadioButton
+                    android:id="@+id/g_rating"
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="10dp"
+                    android:checked="true"
+                    android:paddingStart="6dp"
+                    android:text="G: Нет возрастных ограничений"
+                    android:textColor="?attr/textColor" />
 
-    </RadioGroup>
+                <RadioButton
+                    android:id="@+id/pg_rating"
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="5dp"
+                    android:paddingStart="6dp"
+                    android:text="PG: Рекомендуется присутствие родителей"
+                    android:textColor="?attr/textColor" />
 
-    <androidx.appcompat.widget.SwitchCompat
-        android:id="@+id/switch1"
+                <RadioButton
+                    android:id="@+id/pg13_rating"
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="5dp"
+                    android:paddingStart="6dp"
+                    android:text="PG-13: Детям до 13 лет просмотр не желателен"
+                    android:textColor="?attr/textColor" />
+
+                <RadioButton
+                    android:id="@+id/r_rating"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:layout_marginStart="5dp"
+                    android:paddingStart="6dp"
+                    android:layout_marginBottom="7dp"
+                    android:text="R: Контент для взрослых"
+                    android:textColor="?attr/textColor" />
+
+            </RadioGroup>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:checked="true"
-        android:text="Установка темы приложения"
-        app:layout_constraintTop_toBottomOf="@+id/rating_radio_group"
-        android:textOff="Темная"
-        android:textOn="Светлая"
-        android:textSize="18dp"
-        app:showText="true"
-        tools:ignore="MissingConstraints" />
+        android:layout_height="0dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="5dp"
+        app:cardElevation="10dp"
+        app:cardCornerRadius="4dp"
+        app:layout_constraintTop_toBottomOf="@+id/age">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?attr/cardBackgroundColor">
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/switch_compat"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:checked="true"
+                android:text="?attr/switchText"
+                android:textColor="?attr/textColor"
+                android:layoutDirection="rtl"
+                android:thumb="@drawable/thumb"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/switch_text"
+                app:track="@drawable/track" />
+
+            <TextView
+                android:id="@+id/switch_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:text="Ночной режим"
+                android:textColor="?attr/textColor"
+                android:textSize="18sp"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

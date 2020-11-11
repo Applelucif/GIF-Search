@@ -1,8 +1,6 @@
 package com.example.gyphyclient.view.ui
 
-import android.app.Application
 import android.content.Intent
-import android.content.Intent.getIntent
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.view.LayoutInflater
@@ -11,14 +9,12 @@ import android.view.ViewGroup
 import android.widget.CompoundButton
 import android.widget.RadioGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import com.example.gyphyclient.GiphyApplication
 import com.example.gyphyclient.R
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.analytics.ktx.logEvent
 import com.google.firebase.ktx.Firebase
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.settings_fragment.*
 
 class SettingsFragment : Fragment() {
@@ -45,7 +41,7 @@ class SettingsFragment : Fragment() {
         val preferences =
             PreferenceManager.getDefaultSharedPreferences(GiphyApplication.getAppContext())
         preferences.apply {
-            switch1.isChecked = getBoolean("THEME", true)
+            switch_compat.isChecked = getBoolean("THEME", true)
         }
 
         rating_radio_group.setOnCheckedChangeListener() { _: RadioGroup, checkedId: Int ->
@@ -57,7 +53,7 @@ class SettingsFragment : Fragment() {
             }
         }
 
-        switch1.setOnCheckedChangeListener() { _: CompoundButton, isLight: Boolean ->
+        switch_compat.setOnCheckedChangeListener() { _: CompoundButton, isLight: Boolean ->
             setTheme(isLight)
         }
     }
@@ -83,10 +79,7 @@ class SettingsFragment : Fragment() {
             .putString("TAG", "SettingsFragment")
             .apply()
 
-        var fm:FragmentManager = requireActivity().supportFragmentManager;
-        var tmp = fm.backStackEntryCount
-
-        val intent =  activity?.intent // from getIntent()
+        val intent = activity?.intent // from getIntent()
         intent?.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
         activity?.finish()
         startActivity(intent)

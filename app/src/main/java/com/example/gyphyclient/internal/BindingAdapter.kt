@@ -14,10 +14,11 @@ import com.thin.downloadmanager.DownloadRequest
 import com.thin.downloadmanager.ThinDownloadManager
 import java.io.File
 
-@BindingAdapter(*["bind:imageUrl", "bind:urlSmallGif", "bind:hash", "bind:height", "bind:width"])
+@BindingAdapter(*["bind:imageUrl", "bind:urlSmallGif", "bind:imageUrltoShare", "bind:hash", "bind:height", "bind:width"])
 fun setImage(
     imageView: SimpleDraweeView,
     url: String,
+    urlToSave: String,
     urlSmallGif: String,
     hash: String,
     height: String,
@@ -42,16 +43,16 @@ fun setImage(
             setController(controller)
         }
     } else {
-        val uriSmallGif: Uri = Uri.parse(urlSmallGif)
+/*        val uriSmallGif: Uri = Uri.parse(urlSmallGif)
         val destUriSmall: Uri = Uri.parse("file://${smallimageFile.path}")
         val request = DownloadRequest(uriSmallGif)
             .setDestinationURI(destUriSmall)
         var downloadManager = ThinDownloadManager()
-        downloadManager.add(request)
+        downloadManager.add(request)*/
 
         //TODO работает с URL, а с файлом из памяти - нет. Fresco не может прочитать jpg, который сохранен из gif
         val controller = Fresco.newDraweeControllerBuilder()
-            .setLowResImageRequest(ImageRequest.fromUri(destUriSmall))
+            //.setLowResImageRequest(ImageRequest.fromUri(destUriSmall))
             .setImageRequest(ImageRequest.fromUri(url))
             .setOldController(imageView.controller)
             .setAutoPlayAnimations(true)

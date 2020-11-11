@@ -131,7 +131,6 @@ class TrendingFragment : Fragment() {
                         },
                         { gif ->
                             viewModel.addToFavorite(gif)
-                            viewModel.repository.gifSave(gif, requireContext())
                         }
                     )
                     empty_text.visibility = View.GONE

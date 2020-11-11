@@ -23,7 +23,9 @@ data class DataEntity(
     @ColumnInfo(name = "height")
     val height: String,
     @ColumnInfo(name = "width")
-    val width: String
+    val width: String,
+    @ColumnInfo(name = "gif")
+    val gif: String
 )
 
 @Entity(tableName = "favoriteData")
@@ -44,5 +46,7 @@ data class DataFavoriteEntity(
     @ColumnInfo(name = "height")
     val height: String,
     @ColumnInfo(name = "width")
-    val width: String
+    val width: String,
+    @ColumnInfo(name = "gif")
+    val gif: String
 )

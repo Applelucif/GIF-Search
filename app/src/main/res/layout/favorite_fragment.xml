@@ -33,6 +33,7 @@
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
         android:text="@string/zero_favorite_giphies"
+        android:textColor="?attr/textColor"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

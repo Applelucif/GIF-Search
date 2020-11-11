@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import com.example.gyphyclient.di.DaggerAppComponent
 import com.example.gyphyclient.model.Data
 import com.example.gyphyclient.repository.TrendingRepository
+import io.reactivex.Flowable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.processors.BehaviorProcessor
 import java.util.concurrent.TimeUnit
@@ -38,7 +39,13 @@ class SearchViewModel : ViewModel() {
                 .distinct()
                 .filter { text -> text.isNotBlank() }
                 .switchMap { value ->
-                    repository.querySearchData(value).toFlowable()
+                    repository.querySearchData(value)
+                        .toFlowable()
+                        .onErrorResumeNext(
+                            Flowable.just(
+                                listOf()
+                            )
+                        )
                 }
                 .subscribe { list ->
                     isInProgress.postValue(true)
@@ -46,6 +53,7 @@ class SearchViewModel : ViewModel() {
                         isError.postValue(false)
                         data.postValue(list)
                     } else {
+                        isError.postValue(true)
                     }
                     isInProgress.postValue(false)
                 })

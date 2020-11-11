@@ -1,10 +1,11 @@
 package com.example.gyphyclient.view.ui
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.SearchView
+import android.widget.AutoCompleteTextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -29,7 +30,8 @@ class SearchFragment() : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        search_view.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+        search_view.setOnQueryTextListener(object :
+            androidx.appcompat.widget.SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(s: String?): Boolean {
                 return true
             }
@@ -62,6 +64,21 @@ class SearchFragment() : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_search, container, false)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        val searchPlate: View = search_view.findViewById(androidx.appcompat.R.id.search_plate)
+        if (searchPlate != null) {
+            val searchText =
+                searchPlate.findViewById<AutoCompleteTextView>(androidx.appcompat.R.id.search_src_text)
+            if (searchText != null) {
+                searchText.maxLines = 1
+                searchText.isSingleLine = true
+                searchText.setTextColor(resources.getColor(R.color.black))
+                searchText.setHintTextColor(resources.getColor(R.color.gray))
+            }
+        }
     }
 
     private fun setUpRecyclerView() {
