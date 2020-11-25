@@ -1,6 +1,5 @@
 package com.example.gyphyclient.view.ui
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -69,15 +68,13 @@ class SearchFragment() : Fragment() {
     override fun onStart() {
         super.onStart()
         val searchPlate: View = search_view.findViewById(androidx.appcompat.R.id.search_plate)
-        if (searchPlate != null) {
-            val searchText =
-                searchPlate.findViewById<AutoCompleteTextView>(androidx.appcompat.R.id.search_src_text)
-            if (searchText != null) {
-                searchText.maxLines = 1
-                searchText.isSingleLine = true
-                searchText.setTextColor(resources.getColor(R.color.black))
-                searchText.setHintTextColor(resources.getColor(R.color.gray))
-            }
+        val searchText =
+            searchPlate.findViewById<AutoCompleteTextView>(androidx.appcompat.R.id.search_src_text)
+        if (searchText != null) {
+            searchText.maxLines = 1
+            searchText.isSingleLine = true
+            searchText.setTextColor(resources.getColor(R.color.black))
+            searchText.setHintTextColor(resources.getColor(R.color.gray))
         }
     }
 

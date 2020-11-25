@@ -27,13 +27,13 @@ fun setImage(
     var imageFileName = "$hash.webp"
     var smallImageFileName = "$hash.jpg"
     var storageDir =
-        File(imageView.context.cacheDir.absolutePath + "/image_manager_disk_cache")
+        File("${imageView.context.cacheDir.absolutePath}/image_manager_disk_cache")
     val imageFile = File(storageDir, imageFileName)
     val smallimageFile = File(storageDir, smallImageFileName)
     var aspectRatio: Float = (width.toFloat() / height.toFloat())
 
     if (imageFile.exists()) {
-        val uri: Uri = Uri.parse("file://" + imageFile.path)
+        val uri: Uri = Uri.parse("file://${imageFile.path}")
         val controller = Fresco.newDraweeControllerBuilder()
             .setUri(uri)
             .setAutoPlayAnimations(true)

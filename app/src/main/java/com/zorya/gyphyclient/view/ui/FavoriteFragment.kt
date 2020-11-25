@@ -64,7 +64,7 @@ class FavoriteFragment : Fragment() {
     }
 
     private fun observeInProgress() {
-        viewModel._isInProgress.observe(this, Observer { isLoading ->
+        viewModel._isInProgress.observe(viewLifecycleOwner, Observer { isLoading ->
             isLoading.let {
                 if (it) {
                     empty_text.visibility = View.GONE
@@ -79,7 +79,7 @@ class FavoriteFragment : Fragment() {
     }
 
     private fun observeIsError() {
-        viewModel._isError.observe(this, Observer { isError ->
+        viewModel._isError.observe(viewLifecycleOwner, Observer { isError ->
             empty_text.visibility = View.GONE
             isError.let {
                 if (it) {
@@ -101,9 +101,9 @@ class FavoriteFragment : Fragment() {
     }
 
     private fun observeGiphyList() {
-        viewModel.data.observe(this, Observer { giphies ->
+        viewModel.data.observe(viewLifecycleOwner, Observer { giphies ->
             giphies.let {
-                if (it!= null && it.isNotEmpty()) {
+                if (it != null && it.isNotEmpty()) {
                     fetch_progress.visibility = View.VISIBLE
                     recycler_view.visibility = View.VISIBLE
                     favoriteAdapter.setUpData(

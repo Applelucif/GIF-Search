@@ -1,10 +1,6 @@
 package com.example.gyphyclient.viewmodel
 
-import android.os.Parcelable
-import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.example.gyphyclient.data.database.toDataList
 import com.example.gyphyclient.di.DaggerAppComponent
@@ -72,7 +68,6 @@ class TrendingViewModel : ViewModel() {
                 },
                 {
                     _isInProgress.postValue(true)
-                    Log.e("getTrendingQuery()", "Database error: ${it.message}")
                     _isError.postValue(true)
                     _isInProgress.postValue(false)
                 }

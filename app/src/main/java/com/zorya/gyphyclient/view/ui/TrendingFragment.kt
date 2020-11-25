@@ -57,20 +57,20 @@ class TrendingFragment : Fragment() {
         val preferences = PreferenceManager.getDefaultSharedPreferences(context)
         val editor = preferences.edit()
         editor
-            .putInt("LASTPOSITION", recycler_view.lastVisibleItemPosition)
+            .putInt("FIRSTPOSITION", recycler_view.firstVisibleItemPosition)
             .apply()
     }
 
     override fun onResume() {
         super.onResume()
 
-        var lastPosition = 0
+        var firstPosition = 0
         val preferences =
             PreferenceManager.getDefaultSharedPreferences(GiphyApplication.getAppContext())
         preferences.apply {
-            lastPosition = getInt("LASTPOSITION", 0)
+            firstPosition = getInt("FIRSTPOSITION", 0)
         }
-        recycler_view.scrollToPosition(lastPosition)
+        recycler_view.scrollToPosition(firstPosition - 1)
     }
 
     private fun setUpRecyclerView() {

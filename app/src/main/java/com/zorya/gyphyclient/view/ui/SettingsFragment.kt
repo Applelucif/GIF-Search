@@ -76,7 +76,7 @@ class SettingsFragment : Fragment() {
             .apply()
 
         editor
-            .putString("TAG", "SettingsFragment")
+            .putString("TAG", TAG)
             .apply()
 
         val intent = activity?.intent // from getIntent()

@@ -1,9 +1,9 @@
-package com.example.gyphyclient.data.database
+package com.zorya.gyphyclient.data.database
 
-import com.example.gyphyclient.model.Data
-import com.example.gyphyclient.model.Gif
-import com.example.gyphyclient.model.Images
-import com.example.gyphyclient.model.Thumbnail
+import com.zorya.gyphyclient.model.Data
+import com.zorya.gyphyclient.model.Gif
+import com.zorya.gyphyclient.model.Images
+import com.zorya.gyphyclient.model.Thumbnail
 
 fun DataEntity.toData() = Data(
     Images(Gif(this.height, "1024", this.gif ,this.images, this.width, this.hash), Thumbnail("320", "1024", this.smallImage, "420")),

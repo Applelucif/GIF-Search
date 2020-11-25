@@ -6,9 +6,6 @@ import android.os.Parcel
 import android.os.Parcelable
 import com.example.gyphyclient.data.database.TrendingDatabase
 import com.google.firebase.FirebaseApp
-import com.google.firebase.analytics.FirebaseAnalytics
-import com.google.firebase.analytics.ktx.analytics
-import com.google.firebase.ktx.Firebase
 
 class GiphyApplication : Application(), Parcelable {
 
@@ -33,7 +30,6 @@ class GiphyApplication : Application(), Parcelable {
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-
     }
 
     override fun describeContents(): Int {
