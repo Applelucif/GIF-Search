@@ -1,11 +1,11 @@
-package com.example.gyphyclient.di
+package com.zorya.gyphyclient.di
 
-import com.example.gyphyclient.data.network.GiphyApi
-import com.example.gyphyclient.data.network.GiphyApiService
-import com.example.gyphyclient.model.Data
-import com.example.gyphyclient.repository.TrendingRepository
-import com.example.gyphyclient.view.adapter.FavoriteAdapter
-import com.example.gyphyclient.view.adapter.TrendingAdapter
+import com.zorya.gyphyclient.data.network.GiphyApi
+import com.zorya.gyphyclient.data.network.GiphyApiService
+import com.zorya.gyphyclient.model.Data
+import com.zorya.gyphyclient.repository.TrendingRepository
+import com.zorya.gyphyclient.view.adapter.FavoriteAdapter
+import com.zorya.gyphyclient.view.adapter.TrendingAdapter
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton

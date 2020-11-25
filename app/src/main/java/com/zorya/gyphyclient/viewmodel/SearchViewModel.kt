@@ -1,10 +1,10 @@
-package com.example.gyphyclient.viewmodel
+package com.zorya.gyphyclient.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.gyphyclient.di.DaggerAppComponent
-import com.example.gyphyclient.model.Data
-import com.example.gyphyclient.repository.TrendingRepository
+import com.zorya.gyphyclient.di.DaggerAppComponent
+import com.zorya.gyphyclient.model.Data
+import com.zorya.gyphyclient.repository.TrendingRepository
 import io.reactivex.Flowable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.processors.BehaviorProcessor

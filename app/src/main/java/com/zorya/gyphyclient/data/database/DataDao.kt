@@ -1,11 +1,10 @@
-package com.example.gyphyclient.data.database
+package com.zorya.gyphyclient.data.database
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import io.reactivex.Flowable
-import io.reactivex.Single
 
 @Dao
 interface DataDao {

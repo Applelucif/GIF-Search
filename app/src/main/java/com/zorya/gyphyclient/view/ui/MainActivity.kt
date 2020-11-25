@@ -1,10 +1,10 @@
-package com.example.gyphyclient.view.ui
+package com.zorya.gyphyclient.view.ui
 
 import android.os.Bundle
 import android.preference.PreferenceManager
 import androidx.appcompat.app.AppCompatActivity
-import com.example.gyphyclient.R
-import com.example.gyphyclient.internal.setupWithNavController
+import com.zorya.gyphyclient.R
+import com.zorya.gyphyclient.internal.setupWithNavController
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.google.android.material.bottomnavigation.BottomNavigationView
 

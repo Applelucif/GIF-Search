@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.gyphyclient.internal
+package com.zorya.gyphyclient.internal
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -26,12 +26,10 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
-import com.example.gyphyclient.GiphyApplication
-import com.example.gyphyclient.R
-import com.example.gyphyclient.view.ui.TrendingFragment
+import com.zorya.gyphyclient.GiphyApplication
+import com.zorya.gyphyclient.R
+import com.zorya.gyphyclient.view.ui.TrendingFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import kotlinx.android.synthetic.main.fragment_top.*
-import kotlinx.android.synthetic.main.fragment_top.view.*
 
 /**
  * Manages the various graphs needed for a [BottomNavigationView].

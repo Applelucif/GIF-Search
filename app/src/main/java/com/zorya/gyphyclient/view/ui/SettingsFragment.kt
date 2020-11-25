@@ -1,4 +1,4 @@
-package com.example.gyphyclient.view.ui
+package com.zorya.gyphyclient.view.ui
 
 import android.content.Intent
 import android.os.Bundle
@@ -9,8 +9,8 @@ import android.view.ViewGroup
 import android.widget.CompoundButton
 import android.widget.RadioGroup
 import androidx.fragment.app.Fragment
-import com.example.gyphyclient.GiphyApplication
-import com.example.gyphyclient.R
+import com.zorya.gyphyclient.GiphyApplication
+import com.zorya.gyphyclient.R
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.analytics.ktx.logEvent

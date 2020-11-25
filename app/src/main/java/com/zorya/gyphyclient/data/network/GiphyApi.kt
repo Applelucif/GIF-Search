@@ -1,6 +1,6 @@
-package com.example.gyphyclient.data.network
+package com.zorya.gyphyclient.data.network
 
-import com.example.gyphyclient.model.Result
+import com.zorya.gyphyclient.model.Result
 import io.reactivex.Flowable
 import io.reactivex.Single
 import retrofit2.http.GET

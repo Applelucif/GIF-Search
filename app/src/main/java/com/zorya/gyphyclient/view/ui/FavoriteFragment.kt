@@ -1,4 +1,4 @@
-package com.example.gyphyclient.view.ui
+package com.zorya.gyphyclient.view.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,10 +9,10 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.example.gyphyclient.R
-import com.example.gyphyclient.di.DaggerAppComponent
-import com.example.gyphyclient.view.adapter.FavoriteAdapter
-import com.example.gyphyclient.viewmodel.FavoriteViewModel
+import com.zorya.gyphyclient.R
+import com.zorya.gyphyclient.di.DaggerAppComponent
+import com.zorya.gyphyclient.view.adapter.FavoriteAdapter
+import com.zorya.gyphyclient.viewmodel.FavoriteViewModel
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.analytics.ktx.logEvent

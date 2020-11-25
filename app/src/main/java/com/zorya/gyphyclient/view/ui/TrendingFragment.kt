@@ -1,4 +1,4 @@
-package com.example.gyphyclient.view.ui
+package com.zorya.gyphyclient.view.ui
 
 import android.os.Bundle
 import android.preference.PreferenceManager
@@ -8,11 +8,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.example.gyphyclient.GiphyApplication
-import com.example.gyphyclient.R
-import com.example.gyphyclient.di.DaggerAppComponent
-import com.example.gyphyclient.view.adapter.TrendingAdapter
-import com.example.gyphyclient.viewmodel.TrendingViewModel
+import com.zorya.gyphyclient.GiphyApplication
+import com.zorya.gyphyclient.R
+import com.zorya.gyphyclient.di.DaggerAppComponent
+import com.zorya.gyphyclient.view.adapter.TrendingAdapter
+import com.zorya.gyphyclient.viewmodel.TrendingViewModel
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.analytics.ktx.logEvent

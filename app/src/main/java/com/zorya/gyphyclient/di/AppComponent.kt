@@ -1,12 +1,12 @@
-package com.example.gyphyclient.di
+package com.zorya.gyphyclient.di
 
-import com.example.gyphyclient.repository.TrendingRepository
-import com.example.gyphyclient.view.ui.FavoriteFragment
-import com.example.gyphyclient.view.ui.SearchFragment
-import com.example.gyphyclient.view.ui.TrendingFragment
-import com.example.gyphyclient.viewmodel.FavoriteViewModel
-import com.example.gyphyclient.viewmodel.SearchViewModel
-import com.example.gyphyclient.viewmodel.TrendingViewModel
+import com.zorya.gyphyclient.repository.TrendingRepository
+import com.zorya.gyphyclient.view.ui.FavoriteFragment
+import com.zorya.gyphyclient.view.ui.SearchFragment
+import com.zorya.gyphyclient.view.ui.TrendingFragment
+import com.zorya.gyphyclient.viewmodel.FavoriteViewModel
+import com.zorya.gyphyclient.viewmodel.SearchViewModel
+import com.zorya.gyphyclient.viewmodel.TrendingViewModel
 import dagger.Component
 import javax.inject.Singleton
 

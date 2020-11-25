@@ -1,4 +1,4 @@
-package com.example.gyphyclient.view.ui
+package com.zorya.gyphyclient.view.ui
 
 import android.content.Intent
 import android.os.Bundle

@@ -1,11 +1,11 @@
-package com.example.gyphyclient.view
+package com.zorya.gyphyclient.view
 
 import android.content.Context
 import android.util.AttributeSet
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.example.gyphyclient.R
+import com.zorya.gyphyclient.R
 
 class EndlessRecyclerView @JvmOverloads constructor(
     context: Context,

@@ -1,6 +1,6 @@
-package com.example.gyphyclient.data.network
+package com.zorya.gyphyclient.data.network
 
-import com.example.gyphyclient.internal.BASE_URL
+import com.zorya.gyphyclient.internal.BASE_URL
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit

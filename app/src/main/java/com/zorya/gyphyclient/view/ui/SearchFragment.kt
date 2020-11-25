@@ -1,4 +1,4 @@
-package com.example.gyphyclient.view.ui
+package com.zorya.gyphyclient.view.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,10 +8,10 @@ import android.widget.AutoCompleteTextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DefaultItemAnimator
-import com.example.gyphyclient.R
-import com.example.gyphyclient.di.DaggerAppComponent
-import com.example.gyphyclient.view.adapter.TrendingAdapter
-import com.example.gyphyclient.viewmodel.SearchViewModel
+import com.zorya.gyphyclient.R
+import com.zorya.gyphyclient.di.DaggerAppComponent
+import com.zorya.gyphyclient.view.adapter.TrendingAdapter
+import com.zorya.gyphyclient.viewmodel.SearchViewModel
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.analytics.ktx.logEvent

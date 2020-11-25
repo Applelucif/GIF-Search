@@ -8,7 +8,7 @@
 
         <variable
             name="data"
-            type="com.example.gyphyclient.model.Data" />
+            type="com.zorya.gyphyclient.model.Data" />
     </data>
 
     <androidx.cardview.widget.CardView

@@ -1,10 +1,10 @@
-package com.example.gyphyclient.data.database
+package com.zorya.gyphyclient.data.database
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.gyphyclient.internal.DATABASE_NAME
+import com.zorya.gyphyclient.internal.DATABASE_NAME
 
 @Database(entities = [DataEntity::class, DataFavoriteEntity::class], version = 1)
 abstract class TrendingDatabase : RoomDatabase() {

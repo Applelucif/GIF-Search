@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="?attr/backgroundColor">
 
-    <com.example.gyphyclient.view.EndlessRecyclerView
+    <com.zorya.gyphyclient.view.EndlessRecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

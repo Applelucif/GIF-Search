@@ -1,4 +1,4 @@
-package com.example.gyphyclient.model
+package com.zorya.gyphyclient.model
 
 data class Data(
     val images: Images,

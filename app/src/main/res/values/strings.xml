@@ -1,10 +1,17 @@
 <resources>
-    <string name="app_name">GiphyClient</string>
+    <string name="app_name">GiF Search</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="zero_giphies">Zero giphies found!</string>
+    <string name="zero_giphies">ГИФки не найдены!</string>
     <string name="zero_favorite_giphies">Пока здесь нет избранных Gifок</string>
     <string name="share_gif">Поделиться гифкой</string>
-    <string name="end_data">The end, load next data</string>
-    <string name="search_hint">Please, type here your search</string>
+    <string name="end_data">Данные загружаются</string>
+    <string name="search_hint">Начни писать, что ищешь</string>
+    <string name="rating_g">G: Нет возрастных ограничений</string>
+    <string name="rating_pg">PG: Рекомендуется присутствие родителей</string>
+    <string name="rating_pg13">PG-13: Детям до 13 лет просмотр не желателен</string>
+    <string name="rating_r">R: Контент для взрослых</string>
+    <string name="night">Ночной режим</string>
+    <string name="rating">Возрастной рейтинг Gif</string>
+    <string name="settings">Настройки</string>
 </resources>

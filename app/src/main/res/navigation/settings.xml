@@ -5,5 +5,5 @@
     app:startDestination="@id/settings_screen">
     <fragment
         android:id="@+id/settings_screen"
-        android:name="com.example.gyphyclient.view.ui.SettingsFragment" />
+        android:name="com.zorya.gyphyclient.view.ui.SettingsFragment" />
 </navigation>

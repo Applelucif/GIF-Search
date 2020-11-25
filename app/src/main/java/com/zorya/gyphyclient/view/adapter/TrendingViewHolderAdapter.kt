@@ -1,14 +1,14 @@
-package com.example.gyphyclient.view.adapter
+package com.zorya.gyphyclient.view.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.example.gyphyclient.R
-import com.example.gyphyclient.databinding.ItemGiphyBinding
-import com.example.gyphyclient.internal.LIMIT
-import com.example.gyphyclient.model.Data
+import com.zorya.gyphyclient.R
+import com.zorya.gyphyclient.databinding.ItemGiphyBinding
+import com.zorya.gyphyclient.internal.LIMIT
+import com.zorya.gyphyclient.model.Data
 
 class TrendingViewHolder(
     private val itemGiphyBinding: ItemGiphyBinding

@@ -1,10 +1,10 @@
-package com.example.gyphyclient
+package com.zorya.gyphyclient
 
 import android.app.Application
 import android.content.Context
 import android.os.Parcel
 import android.os.Parcelable
-import com.example.gyphyclient.data.database.TrendingDatabase
+import com.zorya.gyphyclient.data.database.TrendingDatabase
 import com.google.firebase.FirebaseApp
 
 class GiphyApplication : Application(), Parcelable {

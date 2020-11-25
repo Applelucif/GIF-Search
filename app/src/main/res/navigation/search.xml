@@ -5,5 +5,5 @@
     app:startDestination="@id/search_screen">
     <fragment
         android:id="@+id/search_screen"
-        android:name="com.example.gyphyclient.view.ui.SearchFragment" />
+        android:name="com.zorya.gyphyclient.view.ui.SearchFragment" />
 </navigation>

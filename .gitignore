@@ -15,7 +15,7 @@
 .cxx
 # Files in the project where version control should not be used
 Config.kt
-/app/schemas/com.example.gyphyclient.data.database.TrendingDatabase/1.json
+/app/schemas/com.zorya.gyphyclient.data.database.TrendingDatabase/1.json
 /gradlew
 /gradlew.bat
 /gradle/wrapper/gradle-wrapper.jar

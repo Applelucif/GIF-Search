@@ -1,7 +1,6 @@
-package com.example.gyphyclient.internal
+package com.zorya.gyphyclient.internal
 
 import android.net.Uri
-import android.os.Environment
 import androidx.databinding.BindingAdapter
 import com.facebook.binaryresource.FileBinaryResource
 import com.facebook.cache.common.CacheKey
@@ -10,8 +9,6 @@ import com.facebook.drawee.view.SimpleDraweeView
 import com.facebook.imagepipeline.cache.DefaultCacheKeyFactory
 import com.facebook.imagepipeline.core.ImagePipelineFactory
 import com.facebook.imagepipeline.request.ImageRequest
-import com.thin.downloadmanager.DownloadRequest
-import com.thin.downloadmanager.ThinDownloadManager
 import java.io.File
 
 @BindingAdapter(*["bind:imageUrl", "bind:urlSmallGif", "bind:imageUrltoShare", "bind:hash", "bind:height", "bind:width"])

@@ -1,13 +1,13 @@
-package com.example.gyphyclient.view.adapter
+package com.zorya.gyphyclient.view.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.example.gyphyclient.R
-import com.example.gyphyclient.databinding.ItemFavoriteGiphyBinding
-import com.example.gyphyclient.model.Data
+import com.zorya.gyphyclient.R
+import com.zorya.gyphyclient.databinding.ItemFavoriteGiphyBinding
+import com.zorya.gyphyclient.model.Data
 
 class FavoriteViewHolder(
     private val itemGiphyBinding: ItemFavoriteGiphyBinding

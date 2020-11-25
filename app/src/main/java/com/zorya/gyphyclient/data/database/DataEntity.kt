@@ -1,4 +1,4 @@
-package com.example.gyphyclient.data.database
+package com.zorya.gyphyclient.data.database
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

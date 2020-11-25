@@ -1,4 +1,4 @@
-package com.example.gyphyclient
+package com.zorya.gyphyclient
 
 import org.junit.Test
 
